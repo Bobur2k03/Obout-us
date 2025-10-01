@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио - Мои работы</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Портфолио</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">Обо мне</a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="nav-link active">Портфолио</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Контакты</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Мои работы</h1>
+            <p class="page-subtitle">Проекты, которыми я горжусь</p>
+        </div>
+    </section>
+
+    <!-- Фильтры проектов -->
+    <section class="portfolio-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="infrastructure">Инфраструктура</button>
+                <button class="filter-btn" data-filter="security">Безопасность</button>
+                <button class="filter-btn" data-filter="automation">Автоматизация</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Портфолио -->
+    <section class="portfolio">
+        <div class="container">
+            <div class="portfolio-grid">
+                <!-- Проект 1 -->
+                <div class="portfolio-item" data-category="infrastructure">
+                    <div class="portfolio-image">
+                        <img src="images/projects/server-setup.jpg" alt="Настройка серверной инфраструктуры">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Серверная инфраструктура</h3>
+                        <p>Настройка кластера Linux-серверов с балансировкой нагрузки и мониторингом</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Ubuntu</span>
+                            <span class="tech-tag">Nginx</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Zabbix</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 2 -->
+                <div class="portfolio-item" data-category="security">
+                    <div class="portfolio-image">
+                        <img src="images/projects/security-audit.jpg" alt="Аудит безопасности">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Аудит безопасности</h3>
+                        <p>Проведение пентестинга и настройка системы мониторинга безопасности</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Kali Linux</span>
+                            <span class="tech-tag">Nmap</span>
+                            <span class="tech-tag">Wireshark</span>
+                            <span class="tech-tag">Fail2ban</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 3 -->
+                <div class="portfolio-item" data-category="automation">
+                    <div class="portfolio-image">
+                        <img src="images/projects/ansible-automation.jpg" alt="Автоматизация с Ansible">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Автоматизация развертывания</h3>
+                        <p>Создание playbook для автоматической настройки серверов и приложений</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Ansible</span>
+                            <span class="tech-tag">YAML</span>
+                            <span class="tech-tag">Bash</span>
+                            <span class="tech-tag">Git</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 4 -->
+                <div class="portfolio-item" data-category="infrastructure">
+                    <div class="portfolio-image">
+                        <img src="images/projects/kubernetes-cluster.jpg" alt="Kubernetes кластер">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Kubernetes кластер</h3>
+                        <p>Развертывание и настройка Kubernetes кластера для контейнеризации приложений</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Helm</span>
+                            <span class="tech-tag">Prometheus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 5 -->
+                <div class="portfolio-item" data-category="security">
+                    <div class="portfolio-image">
+                        <img src="images/projects/firewall-setup.jpg" alt="Настройка файрвола">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Настройка файрвола</h3>
+                        <p>Конфигурация iptables и настройка VPN для безопасного доступа</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">iptables</span>
+                            <span class="tech-tag">OpenVPN</span>
+                            <span class="tech-tag">UFW</span>
+                            <span class="tech-tag">WireGuard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 6 -->
+                <div class="portfolio-item" data-category="automation">
+                    <div class="portfolio-image">
+                        <img src="images/projects/monitoring-system.jpg" alt="Система мониторинга">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-links">
+                                <a href="#" class="portfolio-link" title="Посмотреть">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="portfolio-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Система мониторинга</h3>
+                        <p>Настройка Zabbix для мониторинга серверов и автоматических уведомлений</p>
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Zabbix</span>
+                            <span class="tech-tag">Grafana</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Telegram Bot</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Детали проектов -->
+    <section class="project-details">
+        <div class="container">
+            <h2 class="section-title">Детали проектов</h2>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Чистый код</h3>
+                    <p>Все проекты написаны с соблюдением лучших практик и стандартов кодирования</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Адаптивность</h3>
+                    <p>Все сайты и приложения адаптированы для работы на любых устройствах</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Производительность</h3>
+                    <p>Оптимизация скорости загрузки и отзывчивости интерфейса</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Безопасность</h3>
+                    <p>Реализация современных методов защиты данных и аутентификации</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика проектов -->
+    <section class="project-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Завершенных проектов</p>
+                </div>
+                <div class="stat-item">
+                    <h3>25+</h3>
+                    <p>Довольных клиентов</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15+</h3>
+                    <p>Технологий изучено</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Успешных проектов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA секция -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Готовы начать проект?</h2>
+                <p>Свяжитесь со мной, чтобы обсудить ваши идеи и воплотить их в жизнь</p>
+                <a href="contact.html" class="btn btn-primary">Связаться со мной</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Портфолио</h3>
+                    <p>Создаю качественные веб-решения для вашего бизнеса</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">Обо мне</a></li>
+                        <li><a href="portfolio.html">Портфолио</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-envelope"></i> example@email.com</p>
+                    <p><i class="fab fa-telegram"></i> @username</p>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Портфолио. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/portfolio.js"></script>
+</body>
+</html>

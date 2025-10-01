@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - Портфолио</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Портфолио</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">Обо мне</a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="nav-link">Портфолио</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link active">Контакты</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Контакты</h1>
+            <p class="page-subtitle">Свяжитесь со мной для обсуждения вашего проекта</p>
+        </div>
+    </section>
+
+    <!-- Контактная информация -->
+    <section class="contact-info">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p>example@email.com</p>
+                    <a href="mailto:example@email.com" class="contact-link">Написать письмо</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3>Telegram</h3>
+                    <p>@username</p>
+                    <a href="https://t.me/username" class="contact-link" target="_blank">Написать в Telegram</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Телефон</h3>
+                    <p>+7 (999) 123-45-67</p>
+                    <a href="tel:+79991234567" class="contact-link">Позвонить</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <h3>LinkedIn</h3>
+                    <p>linkedin.com/in/username</p>
+                    <a href="https://linkedin.com/in/username" class="contact-link" target="_blank">Посмотреть профиль</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>GitHub</h3>
+                    <p>github.com/username</p>
+                    <a href="https://github.com/username" class="contact-link" target="_blank">Посмотреть код</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>HH.ru</h3>
+                    <p>hh.ru/resume/123456</p>
+                    <a href="https://hh.ru/resume/123456" class="contact-link" target="_blank">Посмотреть резюме</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма обратной связи -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Напишите мне</h2>
+                    <p>Заполните форму ниже, и я свяжусь с вами в ближайшее время</p>
+                </div>
+                
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="subject">Тема письма *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Выберите тему</option>
+                            <option value="job-offer">Предложение о работе</option>
+                            <option value="improvement">Улучшения сайта</option>
+                            <option value="collaboration">Сотрудничество</option>
+                            <option value="consultation">Консультация</option>
+                            <option value="other">Другое</option>
+                        </select>
+                        <span class="error-message" id="subjectError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMethod">Контактные данные *</label>
+                        <div class="contact-method-group">
+                            <div class="radio-group">
+                                <input type="radio" id="telegram" name="contactMethod" value="telegram" required>
+                                <label for="telegram">
+                                    <i class="fab fa-telegram"></i>
+                                    Telegram
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="instagram" name="contactMethod" value="instagram" required>
+                                <label for="instagram">
+                                    <i class="fab fa-instagram"></i>
+                                    Instagram
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="email" name="contactMethod" value="email" required>
+                                <label for="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </label>
+                            </div>
+                        </div>
+                        <span class="error-message" id="contactMethodError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactInfo">Ваши контактные данные *</label>
+                        <input type="text" id="contactInfo" name="contactInfo" placeholder="Введите ваш Telegram, Instagram или Email" required>
+                        <span class="error-message" id="contactInfoError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Сообщение *</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Опишите ваш проект или вопрос..." required></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary" id="clearBtn">Очистить</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Отправить</button>
+                    </div>
+
+                    <div class="form-status" id="formStatus"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Дополнительная информация -->
+    <section class="contact-additional">
+        <div class="container">
+            <div class="additional-grid">
+                <div class="additional-card">
+                    <h3><i class="fas fa-clock"></i> Время ответа</h3>
+                    <p>Обычно отвечаю в течение 24 часов в рабочие дни</p>
+                </div>
+                <div class="additional-card">
+                    <h3><i class="fas fa-globe"></i> Часовой пояс</h3>
+                    <p>Работаю по московскому времени (UTC+3)</p>
+                </div>
+                <div class="additional-card">
+                    <h3><i class="fas fa-handshake"></i> Сотрудничество</h3>
+                    <p>Готов к долгосрочным проектам и постоянному сотрудничеству</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Часто задаваемые вопросы</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Сколько времени занимает разработка проекта?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Время разработки зависит от сложности проекта. Простой лендинг - 1-2 недели, 
+                        сложное веб-приложение - 1-3 месяца. Всегда обсуждаем сроки на этапе планирования.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Какие технологии вы используете?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Работаю с современным стеком: React, Vue.js, Node.js, Python, различные базы данных. 
+                        Выбираю технологии исходя из требований проекта.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Предоставляете ли вы поддержку после завершения?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Да, предоставляю техническую поддержку и консультации после сдачи проекта. 
+                        Условия поддержки обсуждаются индивидуально.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Работаете ли вы с зарубежными клиентами?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Да, работаю с клиентами из разных стран. Владею английским языком на уровне 
+                        свободного общения для технических обсуждений.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Портфолио</h3>
+                    <p>Создаю качественные веб-решения для вашего бизнеса</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">Обо мне</a></li>
+                        <li><a href="portfolio.html">Портфолио</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-envelope"></i> example@email.com</p>
+                    <p><i class="fab fa-telegram"></i> @username</p>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Портфолио. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>

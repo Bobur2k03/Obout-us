@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио - Главная</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Портфолио</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">Обо мне</a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="nav-link">Портфолио</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Контакты</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главная секция -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Привет! Я <span class="highlight">Системный администратор</span>
+                </h1>
+                <p class="hero-description">
+                    Обеспечиваю стабильную работу IT-инфраструктуры, настраиваю серверы, 
+                    обеспечиваю безопасность и мониторинг систем. Специализируюсь на Linux, 
+                    сетевых технологиях и автоматизации.
+                </p>
+                <div class="hero-buttons">
+                    <a href="portfolio.html" class="btn btn-primary">Мои работы</a>
+                    <a href="contact.html" class="btn btn-secondary">Связаться</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-card">
+                    <img src="images/profile.jpg" alt="Фото профиля" class="profile-img">
+                    <div class="profile-info">
+                        <h3>Александр Иванов</h3>
+                        <p>System Administrator</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Навыки -->
+    <section class="skills">
+        <div class="container">
+            <h2 class="section-title">Мои навыки</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-linux"></i>
+                    <h3>Linux</h3>
+                    <p>Ubuntu, CentOS, RHEL, Debian</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-server"></i>
+                    <h3>Серверы</h3>
+                    <p>Apache, Nginx, DNS, DHCP</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>Сети</h3>
+                    <p>TCP/IP, VLAN, VPN, Firewall</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Безопасность</h3>
+                    <p>Пентестинг, мониторинг, аудит</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-docker"></i>
+                    <h3>Контейнеризация</h3>
+                    <p>Docker, Kubernetes, LXC</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Мониторинг</h3>
+                    <p>Zabbix, Nagios, Grafana</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>30+</h3>
+                    <p>Серверов настроено</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2+</h3>
+                    <p>Года опыта</p>
+                </div>
+                <div class="stat-item">
+                    <h3>99.9%</h3>
+                    <p>Uptime систем</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Мониторинг</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Миньон анимация -->
+    <div class="minion-container">
+        <div class="minion" id="minion">
+            <img src="images/minion.png" alt="Миньон" class="minion-img">
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Портфолио</h3>
+                    <p>Создаю качественные веб-решения для вашего бизнеса</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">Обо мне</a></li>
+                        <li><a href="portfolio.html">Портфолио</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-envelope"></i> example@email.com</p>
+                    <p><i class="fab fa-telegram"></i> @username</p>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Портфолио. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/minion.js"></script>
+</body>
+</html>

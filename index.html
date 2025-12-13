@@ -3,150 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портфолио - Главная</title>
+    <title>Портфолио — Александр Иванов</title>
+    <meta name="description" content="Портфолио системного администратора: Linux, сети, безопасность, автоматизация, DevOps. Опыт, проекты, контакты.">
+    <meta name="keywords" content="системный администратор, Linux, DevOps, безопасность, портфолио, серверы, автоматизация, IT">
+    <meta name="author" content="Александр Иванов">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #181a20 0%, #101114 100%);
+            color: #fff;
+        }
+        .navbar, .footer {
+            background: #181a20 !important;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #23242a 0%, #181a20 100%) !important;
+            color: #fff !important;
+        }
+        .about, .education, .skills-detailed, .hero, .skills, .portfolio, .portfolio-filters, .project-details, .cta, .contact-info, .contact-form-section, .contact-additional, .faq {
+            background: #181a20 !important;
+        }
+        .about-text h2, .section-title, .timeline-content h3, .skill-category h3, .hero-title, .page-title, .portfolio-content h3, .contact-card h3, .certificate-card h3, .detail-card h3, .faq-question h3 {
+            color: #fff !important;
+        }
+        .about-text p, .timeline-content p, .timeline-degree, .hero-description, .skill-card p, .portfolio-content p, .tech-tag, .contact-card p, .certificate-card p, .detail-card p, .faq-answer p, .form-header p, .form-group label, .footer-section p, .footer-section ul li a, .footer-bottom {
+            color: #fff !important;
+        }
+        .skill-bar {
+            background: #23242a !important;
+        }
+        .skill-progress {
+            background: linear-gradient(90deg, #fbbf24 0%, #3b82f6 100%) !important;
+        }
+        .footer-section h3 {
+            color: #fbbf24 !important;
+        }
+        .footer-section ul li a:hover {
+            color: #fbbf24 !important;
+        }
+        .about-img, .profile-img {
+            border: 4px solid #23242a;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #fbbf24 !important;
+        }
+        .btn-primary {
+            background: #fbbf24 !important;
+            color: #181a20 !important;
+        }
+        .btn-secondary {
+            background: transparent !important;
+            color: #fbbf24 !important;
+            border: 2px solid #fbbf24 !important;
+        }
+        .btn-secondary:hover {
+            background: #fbbf24 !important;
+            color: #181a20 !important;
+        }
+        .card, .skill-card, .portfolio-item, .contact-card, .certificate-card, .detail-card, .timeline-item, .form-container, .additional-card, .faq-item {
+            background: #20222a !important;
+            border: 1.5px solid #35373f !important;
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+        }
+        .portfolio-item:hover, .card:hover, .contact-card:hover, .certificate-card:hover, .detail-card:hover, .timeline-item:hover, .additional-card:hover, .faq-item:hover {
+            border: 2px solid #fbbf24 !important;
+            box-shadow: 0 0 0 4px rgba(251,191,36,0.10);
+            transform: scale(1.04);
+        }
+        .section-title, .skill-card, .skill-card p, .skill-card h3 {
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>Портфолио</h2>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link active">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link">Обо мне</a>
-                </li>
-                <li class="nav-item">
-                    <a href="portfolio.html" class="nav-link">Портфолио</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Контакты</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Главная секция -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Привет! Я <span class="highlight">Системный администратор</span>
-                </h1>
-                <p class="hero-description">
-                    Обеспечиваю стабильную работу IT-инфраструктуры, настраиваю серверы, 
-                    обеспечиваю безопасность и мониторинг систем. Специализируюсь на Linux, 
-                    сетевых технологиях и автоматизации.
-                </p>
-                <div class="hero-buttons">
-                    <a href="portfolio.html" class="btn btn-primary">Мои работы</a>
-                    <a href="contact.html" class="btn btn-secondary">Связаться</a>
+    <header>
+        <!-- Навигация -->
+        <nav class="navbar" aria-label="Главная навигация">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Портфолио</h2>
                 </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">Обо мне</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="portfolio.html" class="nav-link">Портфолио</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Контакты</a>
+                    </li>
+                </ul>
+                <button class="hamburger" aria-label="Открыть меню" aria-controls="nav-menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
             </div>
-            <div class="hero-image">
-                <div class="profile-card">
-                    <img src="images/profile.jpg" alt="Фото профиля" class="profile-img">
-                    <div class="profile-info">
-                        <h3>Александр Иванов</h3>
-                        <p>System Administrator</p>
+        </nav>
+    </header>
+    <main>
+        <!-- Главная секция -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Привет! Я <span class="highlight">Системный администратор</span>
+                    </h1>
+                    <p class="hero-description">
+                        Обеспечиваю стабильную работу IT-инфраструктуры, настраиваю серверы, 
+                        обеспечиваю безопасность и мониторинг систем. Специализируюсь на Linux, 
+                        сетевых технологиях и автоматизации.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="portfolio.html" class="btn btn-primary">Мои работы</a>
+                        <a href="contact.html" class="btn btn-secondary">Связаться</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="profile-card">
+                        <img src="images/profile.jpg" alt="Фото Александра Иванова" class="profile-img" loading="lazy">
+                        <div class="profile-info">
+                            <h3>Александр Иванов</h3>
+                            <p>System Administrator</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Навыки -->
-    <section class="skills">
-        <div class="container">
-            <h2 class="section-title">Мои навыки</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fab fa-linux"></i>
-                    <h3>Linux</h3>
-                    <p>Ubuntu, CentOS, RHEL, Debian</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-server"></i>
-                    <h3>Серверы</h3>
-                    <p>Apache, Nginx, DNS, DHCP</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-network-wired"></i>
-                    <h3>Сети</h3>
-                    <p>TCP/IP, VLAN, VPN, Firewall</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Безопасность</h3>
-                    <p>Пентестинг, мониторинг, аудит</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-docker"></i>
-                    <h3>Контейнеризация</h3>
-                    <p>Docker, Kubernetes, LXC</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Мониторинг</h3>
-                    <p>Zabbix, Nagios, Grafana</p>
+        <!-- Навыки -->
+        <section class="skills">
+            <div class="container">
+                <h2 class="section-title">Мои навыки</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <i class="fab fa-linux" aria-hidden="true"></i>
+                        <h3>Linux</h3>
+                        <p>Ubuntu, CentOS, RHEL, Debian</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-server" aria-hidden="true"></i>
+                        <h3>Серверы</h3>
+                        <p>Apache, Nginx, DNS, DHCP</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-network-wired" aria-hidden="true"></i>
+                        <h3>Сети</h3>
+                        <p>TCP/IP, VLAN, VPN, Firewall</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                        <h3>Безопасность</h3>
+                        <p>Пентестинг, мониторинг, аудит</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-docker" aria-hidden="true"></i>
+                        <h3>Контейнеризация</h3>
+                        <p>Docker, Kubernetes, LXC</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        <h3>Мониторинг</h3>
+                        <p>Zabbix, Nagios, Grafana</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Статистика -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>30+</h3>
-                    <p>Серверов настроено</p>
-                </div>
-                <div class="stat-item">
-                    <h3>2+</h3>
-                    <p>Года опыта</p>
-                </div>
-                <div class="stat-item">
-                    <h3>99.9%</h3>
-                    <p>Uptime систем</p>
-                </div>
-                <div class="stat-item">
-                    <h3>24/7</h3>
-                    <p>Мониторинг</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Миньон анимация -->
-    <div class="minion-container">
-        <div class="minion" id="minion">
-            <img src="images/minion.png" alt="Миньон" class="minion-img">
-        </div>
-    </div>
-
+        </section>
+    </main>
     <!-- Футер -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Портфолио</h3>
-                    <p>Создаю качественные веб-решения для вашего бизнеса</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Быстрые ссылки</h3>
                     <ul>
                         <li><a href="index.html">Главная</a></li>
                         <li><a href="about.html">Обо мне</a></li>
@@ -155,19 +191,30 @@
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <p><i class="fas fa-envelope"></i> example@email.com</p>
-                    <p><i class="fab fa-telegram"></i> @username</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:dochimovbobur@gmail.com">dochimovbobur@gmail.com</a></p>
+                    <p><i class="fab fa-telegram"></i> <a href="https://t.me/Echo_Oops" target="_blank">@Echo_Oops</a></p>
                     <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Портфолио. Все права защищены.</p>
+                <p>&copy; <span id="year"></span> Портфолио. Все права защищены.</p>
             </div>
         </div>
     </footer>
-
     <script src="js/main.js"></script>
-    <script src="js/minion.js"></script>
+    <script>
+        // Актуальный год в футере
+        document.getElementById('year').textContent = new Date().getFullYear();
+        // Мобильное меню: aria-expanded toggle (пример, доработайте JS при необходимости)
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', function() {
+                const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+                hamburger.setAttribute('aria-expanded', !expanded);
+                navMenu.classList.toggle('open');
+            });
+        }
+    </script>
 </body>
 </html>

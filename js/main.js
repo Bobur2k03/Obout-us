@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initFormValidation();
     initPortfolioFilter();
     initSmoothScroll();
-    initMinionAnimation();
 });
 
 // Навигация
@@ -304,109 +303,6 @@ function initSmoothScroll() {
                 });
             }
         });
-    });
-}
-
-// Анимация миньона
-function initMinionAnimation() {
-    const minion = document.getElementById('minion');
-    if (!minion) return;
-    
-    // Появление миньона при загрузке
-    setTimeout(() => {
-        minion.classList.add('minion-appear');
-    }, 1000);
-    
-    // Анимации при наведении
-    minion.addEventListener('mouseenter', function() {
-        this.classList.add('minion-wiggle');
-    });
-    
-    minion.addEventListener('mouseleave', function() {
-        this.classList.remove('minion-wiggle');
-    });
-    
-    // Анимация при клике
-    minion.addEventListener('click', function() {
-        this.classList.add('minion-jump');
-        setTimeout(() => {
-            this.classList.remove('minion-jump');
-        }, 600);
-    });
-    
-    // Анимация падения при скролле вниз
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > 500) {
-            // Скролл вниз
-            minion.classList.add('minion-wave');
-        } else if (scrollTop < lastScrollTop) {
-            // Скролл вверх
-            minion.classList.remove('minion-wave');
-        }
-        
-        lastScrollTop = scrollTop;
-    });
-    
-    // Кнопка "Финал" для анимации падения
-    const finalButton = document.createElement('button');
-    finalButton.textContent = 'Финал';
-    finalButton.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-    `;
-    
-    document.body.appendChild(finalButton);
-    
-    finalButton.addEventListener('click', function() {
-        minion.classList.add('minion-fall');
-        
-        // Показать "Конец" через 2 секунды
-        setTimeout(() => {
-            const endText = document.createElement('div');
-            endText.textContent = 'Конец';
-            endText.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 4rem;
-                font-weight: bold;
-                color: var(--primary-color);
-                z-index: 1002;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-                animation: fadeIn 1s ease-in-out;
-            `;
-            
-            document.body.appendChild(endText);
-            
-            // Убрать текст через 3 секунды
-            setTimeout(() => {
-                endText.remove();
-            }, 3000);
-        }, 2000);
-    });
-    
-    // Hover эффект для кнопки
-    finalButton.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.05)';
-    });
-    
-    finalButton.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
     });
 }
 

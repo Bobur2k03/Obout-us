@@ -8,6 +8,72 @@
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #181a20 0%, #101114 100%);
+            color: #fff;
+        }
+        .navbar, .footer {
+            background: #181a20 !important;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #23242a 0%, #181a20 100%) !important;
+            color: #fff !important;
+        }
+        .about, .education, .skills-detailed, .hero, .skills, .portfolio, .portfolio-filters, .project-details, .cta, .contact-info, .contact-form-section, .contact-additional, .faq {
+            background: #181a20 !important;
+        }
+        .about-text h2, .section-title, .timeline-content h3, .skill-category h3, .hero-title, .page-title, .portfolio-content h3, .contact-card h3, .certificate-card h3, .detail-card h3, .faq-question h3 {
+            color: #fff !important;
+        }
+        .about-text p, .timeline-content p, .timeline-degree, .hero-description, .skill-card p, .portfolio-content p, .tech-tag, .contact-card p, .certificate-card p, .detail-card p, .faq-answer p, .form-header p, .form-group label, .footer-section p, .footer-section ul li a, .footer-bottom {
+            color: #fff !important;
+        }
+        .skill-bar {
+            background: #23242a !important;
+        }
+        .skill-progress {
+            background: linear-gradient(90deg, #fbbf24 0%, #3b82f6 100%) !important;
+        }
+        .footer-section h3 {
+            color: #fbbf24 !important;
+        }
+        .footer-section ul li a:hover {
+            color: #fbbf24 !important;
+        }
+        .about-img, .profile-img {
+            border: 4px solid #23242a;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #fbbf24 !important;
+        }
+        .btn-primary {
+            background: #fbbf24 !important;
+            color: #181a20 !important;
+        }
+        .btn-secondary {
+            background: transparent !important;
+            color: #fbbf24 !important;
+            border: 2px solid #fbbf24 !important;
+        }
+        .btn-secondary:hover {
+            background: #fbbf24 !important;
+            color: #181a20 !important;
+        }
+        .card, .skill-card, .portfolio-item, .contact-card, .certificate-card, .detail-card, .timeline-item, .form-container, .additional-card, .faq-item {
+            background: #20222a !important;
+            border: 1.5px solid #35373f !important;
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+        }
+        .portfolio-item:hover, .card:hover, .contact-card:hover, .certificate-card:hover, .detail-card:hover, .timeline-item:hover, .additional-card:hover, .faq-item:hover {
+            border: 2px solid #fbbf24 !important;
+            box-shadow: 0 0 0 4px rgba(251,191,36,0.10);
+            transform: scale(1.04);
+        }
+        .skills-detailed, .skill-category, .skill-item, .skill-card, .skill-card p, .skill-card h3 {
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Навигация -->
@@ -42,7 +108,7 @@
     <section class="page-header">
         <div class="container">
             <h1 class="page-title">Обо мне</h1>
-            <p class="page-subtitle">Узнайте больше о моем пути в веб-разработке</p>
+            <p class="page-subtitle">Узнайте больше о моем пути .........</p>
         </div>
     </section>
 
@@ -64,20 +130,6 @@
                         Люблю решать сложные технические задачи и создавать надежные 
                         системы, которые работают стабильно 24/7.
                     </p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <h3>2+</h3>
-                            <p>Года опыта</p>
-                        </div>
-                        <div class="stat">
-                            <h3>30+</h3>
-                            <p>Серверов</p>
-                        </div>
-                        <div class="stat">
-                            <h3>20+</h3>
-                            <p>Технологий</p>
-                        </div>
-                    </div>
                 </div>
                 <div class="about-image">
                     <img src="images/profile-large.jpg" alt="Александр Иванов" class="about-img">
@@ -100,25 +152,6 @@
                         операционные системы, криптографию. Участвовал в студенческих 
                         проектах по пентестингу и хакатонах по кибербезопасности.</p>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2023</div>
-                    <div class="timeline-content">
-                        <h3>Linux Foundation</h3>
-                        <p class="timeline-degree">Linux System Administrator</p>
-                        <p>Сертификация по администрированию Linux-систем. Изучил 
-                        настройку серверов, мониторинг, автоматизацию и безопасность.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2022</div>
-                    <div class="timeline-content">
-                        <h3>Cisco Networking Academy</h3>
-                        <p class="timeline-degree">CCNA - Сетевые технологии</p>
-                        <p>Освоил основы сетевых технологий, настройку маршрутизаторов 
-                        и коммутаторов, протоколы TCP/IP, VLAN и VPN.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -138,21 +171,9 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span>CentOS/RHEL</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
                             <span>Windows Server</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" data-width="75%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>FreeBSD</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="70%"></div>
                             </div>
                         </div>
                     </div>
@@ -167,19 +188,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span>VLAN/VPN</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Firewall</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="80%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>DNS/DHCP</span>
+                            <span>VPN</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" data-width="85%"></div>
                             </div>
@@ -190,7 +199,7 @@
                     <h3><i class="fas fa-tools"></i> Инструменты и автоматизация</h3>
                     <div class="skill-list">
                         <div class="skill-item">
-                            <span>Docker/Kubernetes</span>
+                            <span>Docker</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" data-width="80%"></div>
                             </div>
@@ -201,99 +210,7 @@
                                 <div class="skill-progress" data-width="75%"></div>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <span>Zabbix/Nagios</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Bash/Python</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="80%"></div>
-                            </div>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Опыт работы -->
-    <section class="experience">
-        <div class="container">
-            <h2 class="section-title">Опыт работы</h2>
-            <div class="experience-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">2023 - настоящее время</div>
-                    <div class="timeline-content">
-                        <h3>Freelance System Administrator</h3>
-                        <p class="timeline-company">Самозанятый</p>
-                        <ul>
-                            <li>Настройка и поддержка Linux-серверов</li>
-                            <li>Обеспечение безопасности IT-инфраструктуры</li>
-                            <li>Автоматизация процессов с помощью Ansible</li>
-                            <li>Мониторинг систем с помощью Zabbix</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2022 - 2023</div>
-                    <div class="timeline-content">
-                        <h3>Junior System Administrator</h3>
-                        <p class="timeline-company">IT Company</p>
-                        <ul>
-                            <li>Поддержка корпоративной сети</li>
-                            <li>Настройка DNS и DHCP серверов</li>
-                            <li>Работа с пользователями и техническая поддержка</li>
-                            <li>Участие в планировании IT-инфраструктуры</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2021 - 2022</div>
-                    <div class="timeline-content">
-                        <h3>Стажер IT Support</h3>
-                        <p class="timeline-company">Startup Company</p>
-                        <ul>
-                            <li>Изучение основ системного администрирования</li>
-                            <li>Выполнение простых задач по настройке</li>
-                            <li>Участие в проектах по безопасности</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Сертификаты -->
-    <section class="certificates">
-        <div class="container">
-            <h2 class="section-title">Сертификаты</h2>
-            <div class="certificates-grid">
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fab fa-linux"></i>
-                    </div>
-                    <h3>Linux System Administrator</h3>
-                    <p>Linux Foundation</p>
-                    <span class="cert-date">2023</span>
-                </div>
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h3>CCNA - Сетевые технологии</h3>
-                    <p>Cisco</p>
-                    <span class="cert-date">2022</span>
-                </div>
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Cybersecurity Fundamentals</h3>
-                    <p>CompTIA</p>
-                    <span class="cert-date">2022</span>
                 </div>
             </div>
         </div>
@@ -318,8 +235,8 @@
                 </div>
                 <div class="footer-section">
                     <h3>Контакты</h3>
-                    <p><i class="fas fa-envelope"></i> example@email.com</p>
-                    <p><i class="fab fa-telegram"></i> @username</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:dochimovbobur@gmail.com">dochimovbobur@gmail.com</a></p>
+                    <p><i class="fab fa-telegram"></i> <a href="https://t.me/Echo_Oops" target="_blank">@Echo_Oops</a></p>
                     <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
                 </div>
             </div>

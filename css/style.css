@@ -44,6 +44,7 @@ body {
     z-index: 1000;
     transition: all 0.3s ease;
     border-bottom: 1px solid var(--border-color);
+    color: #fff !important;
 }
 
 .nav-container {
@@ -57,7 +58,7 @@ body {
 }
 
 .nav-logo h2 {
-    color: var(--primary-color);
+    color: #fff !important;
     font-weight: 700;
     font-size: 1.5rem;
 }
@@ -70,7 +71,7 @@ body {
 
 .nav-link {
     text-decoration: none;
-    color: var(--text-color);
+    color: #fff !important;
     font-weight: 500;
     transition: color 0.3s ease;
     position: relative;
@@ -130,6 +131,7 @@ body {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1.5rem;
+    color: #fff !important;
 }
 
 .highlight {
@@ -219,12 +221,13 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 3rem;
-    color: var(--text-color);
+    color: #fff !important;
 }
 
 .skills {
     padding: 80px 0;
     background: var(--bg-light);
+    color: #fff !important;
 }
 
 .skills-grid {
@@ -234,12 +237,23 @@ body {
 }
 
 .skill-card {
-    background: white;
+    background: #20222a !important;
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
     box-shadow: var(--shadow);
     transition: transform 0.3s ease;
+    color: #fff !important;
+    border: 1.5px solid #35373f !important;
+}
+
+.skill-card img, .hero .profile-img {
+    border-radius: 50% !important;
+    object-fit: cover;
+    border: 4px solid #23242a !important;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
 }
 
 .skill-card:hover {
@@ -255,11 +269,11 @@ body {
 .skill-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: var(--text-color);
+    color: #fff !important;
 }
 
 .skill-card p {
-    color: var(--text-light);
+    color: #fff !important;
     line-height: 1.6;
 }
 
@@ -292,7 +306,7 @@ body {
 .page-header {
     padding: 120px 0 80px;
     background: var(--gradient);
-    color: white;
+    color: #fff !important;
     text-align: center;
 }
 
@@ -300,11 +314,13 @@ body {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #fff !important;
 }
 
 .page-subtitle {
     font-size: 1.25rem;
     opacity: 0.9;
+    color: #fff !important;
 }
 
 /* Обо мне */
@@ -403,6 +419,7 @@ body {
 /* Навыки детальные */
 .skills-detailed {
     padding: 80px 0;
+    color: #fff !important;
 }
 
 .skills-categories {
@@ -414,7 +431,7 @@ body {
 .skill-category h3 {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    color: var(--text-color);
+    color: #fff !important;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -427,13 +444,14 @@ body {
 
 .skill-item {
     margin-bottom: 1.5rem;
+    color: #fff !important;
 }
 
 .skill-item span {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: var(--text-color);
+    color: #fff !important;
 }
 
 .skill-bar {
@@ -597,7 +615,9 @@ body {
 }
 
 .portfolio-item:hover {
-    transform: translateY(-5px);
+    transform: scale(1.04);
+    border: 2px solid #fbbf24;
+    box-shadow: 0 0 0 4px rgba(251,191,36,0.15);
 }
 
 .portfolio-image {
@@ -680,12 +700,15 @@ body {
 }
 
 .tech-tag {
-    background: var(--bg-light);
-    color: var(--primary-color);
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.85rem;
+    background: transparent !important;
+    color: #fff !important;
+    border: 1.5px solid #fbbf24 !important;
+    border-radius: 999px !important;
+    padding: 0.25rem 1rem !important;
     font-weight: 500;
+    font-size: 0.95rem;
+    display: inline-block;
+    margin-bottom: 0.2rem;
 }
 
 /* Детали проектов */
@@ -826,37 +849,41 @@ body {
 /* Форма контактов */
 .contact-form-section {
     padding: 80px 0;
-    background: var(--bg-light);
+    background: #23242a !important;
+    color: #fff !important;
 }
 
 .form-container {
     max-width: 600px;
     margin: 0 auto;
-    background: white;
+    background: #23242a !important;
     padding: 3rem;
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
+    border: 1.5px solid #35373f !important;
 }
 
 .form-header {
     text-align: center;
     margin-bottom: 2rem;
+    color: #fff !important;
 }
 
 .form-header h2 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: #fff !important;
 }
 
 .form-header p {
-    color: var(--text-light);
+    color: #fff !important;
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    color: #fff !important;
 }
 
 .form-group {
@@ -867,17 +894,24 @@ body {
 .form-group label {
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: #fff !important;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     padding: 12px;
-    border: 2px solid var(--border-color);
+    border: 1.5px solid #35373f !important;
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    background: #181a20 !important;
+    color: #fff !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #bdbdbd !important;
+    opacity: 1;
 }
 
 .form-group input:focus,
@@ -1011,17 +1045,11 @@ body {
 }
 
 .faq-question:hover {
-    background: var(--bg-light);
+    background: #23242a !important;
 }
 
-.faq-question h3 {
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
-
-.faq-question i {
-    color: var(--primary-color);
-    transition: transform 0.3s ease;
+.faq-question:hover h3 {
+    color: #e5e7eb !important;
 }
 
 .faq-item.active .faq-question i {
@@ -1096,40 +1124,6 @@ body {
     color: #94a3b8;
 }
 
-/* Миньон */
-.minion-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-    pointer-events: none;
-}
-
-.minion {
-    width: 80px;
-    height: 80px;
-    transition: all 0.5s ease;
-}
-
-.minion-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
 /* Адаптивность */
 @media (max-width: 768px) {
     .hamburger {
@@ -1193,10 +1187,6 @@ body {
     
     .form-buttons {
         flex-direction: column;
-    }
-    
-    .minion-container {
-        display: none;
     }
 }
 

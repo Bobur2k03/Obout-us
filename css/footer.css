@@ -1,0 +1,65 @@
+/* footer.css — стили только для footer.html */
+.footer {
+    background: linear-gradient(135deg, #181a20 0%, #23242a 100%);
+    color: #e5e7eb;
+    padding: 60px 0 20px;
+    border-top: 2px solid #35373f;
+    box-shadow: 0 -4px 24px 0 rgba(0,0,0,0.18);
+}
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+.footer-section {
+    min-width: 220px;
+    flex: 1 1 220px;
+    border-right: 1.5px solid #35373f;
+    padding-right: 2rem;
+    margin-bottom: 1.5rem;
+}
+.footer-section:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+.footer-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #fbbf24;
+    letter-spacing: 0.5px;
+}
+.footer-section p, .footer-section ul li a {
+    color: #e5e7eb;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+.footer-section ul li a:hover {
+    color: #fbbf24;
+    text-decoration: underline;
+}
+.footer-bottom {
+    text-align: center !important;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding-top: 2rem;
+    border-top: 1.5px solid #35373f;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+@media (max-width: 900px) {
+    .footer-content { flex-direction: column; gap: 1.5rem; }
+    .footer-section { border-right: none; padding-right: 0; }
+}

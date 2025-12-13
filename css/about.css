@@ -1,0 +1,206 @@
+/* Стили только для about.html */
+body {
+    background: linear-gradient(135deg, #181a20 0%, #101114 100%);
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.page-header, .page-title, .page-subtitle, .section-title {
+    color: #fff !important;
+    text-align: center;
+}
+
+.about, .education, .skills-detailed {
+    background: #181a20 !important;
+    padding: 80px 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    color: #e5e7eb;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.about-img {
+    border: 4px solid #23242a;
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+}
+
+.education-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #20222a;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+    border: 1.5px solid #35373f;
+}
+
+.timeline-date {
+    font-weight: 700;
+    color: #fbbf24;
+    min-width: 120px;
+    font-size: 1.1rem;
+}
+
+.timeline-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.timeline-degree {
+    font-weight: 600;
+    color: #fbbf24;
+    margin-bottom: 1rem;
+}
+
+.timeline-content p {
+    color: #e5e7eb;
+    line-height: 1.6;
+}
+
+.skills-detailed {
+    color: #fff;
+}
+
+.skills-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+}
+
+.skill-category h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.skill-category i {
+    color: #fbbf24;
+    font-size: 1.2rem;
+}
+
+.skill-item {
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.skill-bar {
+    height: 8px;
+    background: #23242a;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24 0%, #3b82f6 100%);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+/* Квадратные карточки технических навыков */
+.square-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: stretch;
+    margin-top: 2rem;
+}
+.skill-card.square {
+    aspect-ratio: 1/1;
+    min-width: 220px;
+    max-width: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #20222a;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.18);
+    border: 2px solid #35373f;
+    color: #fff;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+}
+.skill-card.square:hover {
+    border: 2.5px solid #fbbf24;
+    box-shadow: 0 0 0 6px rgba(251,191,36,0.10);
+    transform: translateY(-6px) scale(1.04);
+}
+.skill-card.square i {
+    font-size: 2.2rem;
+    color: #fbbf24;
+    margin-bottom: 1rem;
+}
+.skill-card.square h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+    color: #fff;
+}
+.skill-card.square ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #e5e7eb;
+    font-size: 0.98rem;
+}
+.skill-card.square ul li {
+    margin-bottom: 0.3rem;
+}
+
+.footer {
+    background: #1e293b;
+    color: #e5e7eb;
+    border-top: 2px solid #35373f;
+    padding: 60px 0 20px;
+}
+
+/* Центрирование футера */
+.footer-bottom {
+    text-align: center !important;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding-top: 2rem;
+    border-top: 1.5px solid #35373f;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 900px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}

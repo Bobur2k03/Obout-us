@@ -9,106 +9,14 @@
     <meta name="author" content="Александр Иванов">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #181a20 0%, #101114 100%);
-            color: #fff;
-        }
-        .navbar, .footer {
-            background: #181a20 !important;
-        }
-        .page-header {
-            background: linear-gradient(135deg, #23242a 0%, #181a20 100%) !important;
-            color: #fff !important;
-        }
-        .about, .education, .skills-detailed, .hero, .skills, .portfolio, .portfolio-filters, .project-details, .cta, .contact-info, .contact-form-section, .contact-additional, .faq {
-            background: #181a20 !important;
-        }
-        .about-text h2, .section-title, .timeline-content h3, .skill-category h3, .hero-title, .page-title, .portfolio-content h3, .contact-card h3, .certificate-card h3, .detail-card h3, .faq-question h3 {
-            color: #fff !important;
-        }
-        .about-text p, .timeline-content p, .timeline-degree, .hero-description, .skill-card p, .portfolio-content p, .tech-tag, .contact-card p, .certificate-card p, .detail-card p, .faq-answer p, .form-header p, .form-group label, .footer-section p, .footer-section ul li a, .footer-bottom {
-            color: #fff !important;
-        }
-        .skill-bar {
-            background: #23242a !important;
-        }
-        .skill-progress {
-            background: linear-gradient(90deg, #fbbf24 0%, #3b82f6 100%) !important;
-        }
-        .footer-section h3 {
-            color: #fbbf24 !important;
-        }
-        .footer-section ul li a:hover {
-            color: #fbbf24 !important;
-        }
-        .about-img, .profile-img {
-            border: 4px solid #23242a;
-        }
-        .nav-link.active, .nav-link:hover {
-            color: #fbbf24 !important;
-        }
-        .btn-primary {
-            background: #fbbf24 !important;
-            color: #181a20 !important;
-        }
-        .btn-secondary {
-            background: transparent !important;
-            color: #fbbf24 !important;
-            border: 2px solid #fbbf24 !important;
-        }
-        .btn-secondary:hover {
-            background: #fbbf24 !important;
-            color: #181a20 !important;
-        }
-        .card, .skill-card, .portfolio-item, .contact-card, .certificate-card, .detail-card, .timeline-item, .form-container, .additional-card, .faq-item {
-            background: #20222a !important;
-            border: 1.5px solid #35373f !important;
-            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
-        }
-        .portfolio-item:hover, .card:hover, .contact-card:hover, .certificate-card:hover, .detail-card:hover, .timeline-item:hover, .additional-card:hover, .faq-item:hover {
-            border: 2px solid #fbbf24 !important;
-            box-shadow: 0 0 0 4px rgba(251,191,36,0.10);
-            transform: scale(1.04);
-        }
-        .section-title, .skill-card, .skill-card p, .skill-card h3 {
-            color: #fff !important;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <!-- Навигация -->
-        <nav class="navbar" aria-label="Главная навигация">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h2>Портфолио</h2>
-                </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link active">Главная</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="about.html" class="nav-link">Обо мне</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="portfolio.html" class="nav-link">Портфолио</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="contact.html" class="nav-link">Контакты</a>
-                    </li>
-                </ul>
-                <button class="hamburger" aria-label="Открыть меню" aria-controls="nav-menu" aria-expanded="false">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-            </div>
-        </nav>
-    </header>
+    <div id="header"></div>
     <main>
         <!-- Главная секция -->
         <section class="hero">
@@ -138,7 +46,6 @@
                 </div>
             </div>
         </section>
-
         <!-- Навыки -->
         <section class="skills">
             <div class="container">
@@ -178,34 +85,9 @@
             </div>
         </section>
     </main>
-    <!-- Футер -->
-<div id="footer"></div>
-    <script>
-        fetch('footer.html')
-          .then(res => res.text())
-          .then(html => { document.getElementById('footer').innerHTML = html; });
-    </script>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-
-    <script src="js/main.js"></script>
-    <script src="js/portfolio.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        // Актуальный год в футере
-        document.getElementById('year').textContent = new Date().getFullYear();
-        // Мобильное меню: aria-expanded toggle (пример, доработайте JS при необходимости)
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        if (hamburger && navMenu) {
-            hamburger.addEventListener('click', function() {
-                const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-                hamburger.setAttribute('aria-expanded', !expanded);
-                navMenu.classList.toggle('open');
-            });
-        }
-    </script>
+    <div id="footer"></div>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

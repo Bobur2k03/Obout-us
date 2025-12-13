@@ -196,13 +196,13 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.hero .profile-img, .profile-card img {
+    width: 360px !important;
+    height: 360px !important;
+    border-radius: 50% !important;
     object-fit: cover;
+    border: 4px solid #23242a !important;
     margin-bottom: 1rem;
-    border: 4px solid rgba(255, 255, 255, 0.3);
 }
 
 .profile-info h3 {
@@ -245,15 +245,6 @@ body {
     transition: transform 0.3s ease;
     color: #fff !important;
     border: 1.5px solid #35373f !important;
-}
-
-.skill-card img, .hero .profile-img {
-    border-radius: 50% !important;
-    object-fit: cover;
-    border: 4px solid #23242a !important;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 1rem;
 }
 
 .skill-card:hover {
@@ -1076,8 +1067,9 @@ input::placeholder, textarea::placeholder {
 /* Футер */
 .footer {
     background: var(--bg-dark);
-    color: white;
+    color: #e5e7eb;
     padding: 60px 0 20px;
+    border-top: 2px solid #35373f;
 }
 
 .footer-content {
@@ -1087,40 +1079,34 @@ input::placeholder, textarea::placeholder {
     margin-bottom: 2rem;
 }
 
+.footer-section {
+    border-right: 1.5px solid #35373f;
+    padding-right: 2rem;
+}
+
+.footer-section:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
 .footer-section h3 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
     color: #fbbf24;
 }
 
-.footer-section p {
-    color: #94a3b8;
-    line-height: 1.6;
-    margin-bottom: 0.5rem;
-}
-
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-section ul li a {
-    color: #94a3b8;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.footer-section p, .footer-section ul li a {
+    color: #e5e7eb;
 }
 
 .footer-section ul li a:hover {
-    color: white;
+    color: #fbbf24;
 }
 
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
-    border-top: 1px solid #374151;
+    border-top: 1.5px solid #35373f;
     color: #94a3b8;
 }
 

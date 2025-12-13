@@ -353,28 +353,13 @@
     </section>
 
     <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="about.html">Обо мне</a></li>
-                        <li><a href="portfolio.html">Портфолио</a></li>
-                        <li><a href="contact.html">Контакты</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:dochimovbobur@gmail.com">dochimovbobur@gmail.com</a></p>
-                    <p><i class="fab fa-telegram"></i> <a href="https://t.me/Echo_Oops" target="_blank">@Echo_Oops</a></p>
-                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="year"></span> Портфолио. Все права защищены.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer"></div>
+    <script>
+        fetch('footer.html')
+          .then(res => res.text())
+          .then(html => { document.getElementById('footer').innerHTML = html; });
+    </script>
+
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>

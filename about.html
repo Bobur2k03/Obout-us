@@ -132,7 +132,7 @@
                     </p>
                 </div>
                 <div class="about-image">
-                    <img src="images/profile-large.jpg" alt="Александр Иванов" class="about-img">
+                    <img src="images/punpun onodera.jpg" alt="Александр Иванов" class="about-img">
                 </div>
             </div>
         </div>
@@ -217,34 +217,12 @@
     </section>
 
     <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Портфолио</h3>
-                    <p>Создаю качественные веб-решения для вашего бизнеса</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Быстрые ссылки</h3>
-                    <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="about.html">Обо мне</a></li>
-                        <li><a href="portfolio.html">Портфолио</a></li>
-                        <li><a href="contact.html">Контакты</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:dochimovbobur@gmail.com">dochimovbobur@gmail.com</a></p>
-                    <p><i class="fab fa-telegram"></i> <a href="https://t.me/Echo_Oops" target="_blank">@Echo_Oops</a></p>
-                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Портфолио. Все права защищены.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer"></div>
+    <script>
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(html => { document.getElementById('footer').innerHTML = html; });
+    </script>
 
     <script src="js/main.js"></script>
 </body>

@@ -1,436 +1,76 @@
-# Creating a ready-to-download portfolio template (HTML/CSS/JS) as a ZIP file.
-# This code writes files into /mnt/data/portfolio_template, zips them, and prints the path.
-import os, zipfile, textwrap
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Портфолио — Ваше имя</title>
+  <link rel="stylesheet" href="css/test.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html">Моё портфолио</a>
+      <ul class="nav-list">
+        <li><a href="index.html#about">Обо мне</a></li>
+        <li><a href="projects.html">Проекты</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
 
-base = "/mnt/data/portfolio_template"
-os.makedirs(base, exist_ok=True)
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Привет — я <span class="name">Ваше Имя</span></h1>
+        <p class="lead">Студент TUIT, направление: информационная безопасность. Учусь пентестингу и devops.</p>
+        <p class="ctas">
+          <a href="index.html#about" class="btn">Обо мне</a>
+          <a href="projects.html" class="btn btn-ghost">Проекты</a>
+        </p>
+      </div>
+      <div class="hero-right">
+        <!-- Lottie container -->
+        <div id="minion" aria-hidden="true"></div>
+      </div>
+    </section>
 
-files = {
-    "index.html": textwrap.dedent("""\
-    <!doctype html>
-    <html lang="ru">
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <title>Портфолио — Ваше имя</title>
-      <link rel="stylesheet" href="css/styles.css">
-    </head>
-    <body>
-      <header class="site-header">
-        <nav class="nav">
-          <a class="logo" href="index.html">Моё портфолио</a>
-          <ul class="nav-list">
-            <li><a href="index.html#about">Обо мне</a></li>
-            <li><a href="projects.html">Проекты</a></li>
-            <li><a href="contact.html">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
-    
-      <main>
-        <section class="hero">
-          <div class="hero-left">
-            <h1>Привет — я <span class="name">Ваше Имя</span></h1>
-            <p class="lead">Студент TUIT, направление: информационная безопасность. Учусь пентестингу и devops.</p>
-            <p class="ctas">
-              <a href="index.html#about" class="btn">Обо мне</a>
-              <a href="projects.html" class="btn btn-ghost">Проекты</a>
-            </p>
-          </div>
-          <div class="hero-right">
-            <!-- Lottie container -->
-            <div id="minion" aria-hidden="true"></div>
-          </div>
-        </section>
-    
-        <section id="about" class="about">
-          <h2>Образование</h2>
-          <p><strong>Университет:</strong> Ташкентский университет информационных технологий (TUIT). Курс: 4-й. Специальность: Информационная безопасность.</p>
-    
-          <h3>Навыки</h3>
-          <ul class="skills">
-            <li>Сетевые технологии (настройка роутеров, свитчей, firewall)</li>
-            <li>Пентестинг, сканирование (Kali Linux)</li>
-            <li>Docker, Kubernetes, мониторинг (Zabbix)</li>
-            <li>Asterisk — настройка IP-телефонии</li>
-            <li>C++, Python, HTML, CSS</li>
-          </ul>
-    
-          <p><a href="resume.pdf" class="btn">Скачать резюме (PDF)</a></p>
-        </section>
-    
-        <section class="projects-preview">
-          <h2>Проекты</h2>
-          <div class="cards">
-            <article class="card">
-              <h4>Название проекта 1</h4>
-              <p>Короткое описание — стек: Python, Flask. <a href="#" target="_blank">GitHub</a></p>
-            </article>
-    
-            <article class="card">
-              <h4>Название проекта 2</h4>
-              <p>Короткое описание — стек: Docker, Ansible. <a href="#" target="_blank">GitHub</a></p>
-            </article>
-          </div>
-          <p><a href="projects.html" class="btn btn-ghost">Все проекты</a></p>
-        </section>
-      </main>
-    
-      <footer class="site-footer">
-        <p>© <span id="year"></span> Ваше Имя — Портфолио</p>
-      </footer>
-    
-      <button id="finalBtn" class="final-btn" title="Финал">Финал</button>
-    
-      <script src="js/lottie-control.js"></script>
-      <script src="js/main.js"></script>
-    </body>
-    </html>
-    """),
-    "projects.html": textwrap.dedent("""\
-    <!doctype html>
-    <html lang="ru">
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <title>Проекты — Ваше имя</title>
-      <link rel="stylesheet" href="css/styles.css">
-    </head>
-    <body>
-      <header class="site-header">
-        <nav class="nav">
-          <a class="logo" href="index.html">Моё портфолио</a>
-          <ul class="nav-list">
-            <li><a href="index.html#about">Обо мне</a></li>
-            <li><a href="projects.html">Проекты</a></li>
-            <li><a href="contact.html">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
-    
-      <main class="projects-page">
-        <h1>Проекты</h1>
-        <div class="cards">
-          <article class="card">
-            <h3>Project A</h3>
-            <p>Описание проекта A. Технологии: Python, Flask, Docker.</p>
-            <p><a href="#" target="_blank">Ссылка на репозиторий</a></p>
-          </article>
-    
-          <article class="card">
-            <h3>Project B</h3>
-            <p>Описание проекта B. Технологии: C++, сетевые сценарии.</p>
-            <p><a href="#" target="_blank">Ссылка на репозиторий</a></p>
-          </article>
-    
-          <!-- Добавьте больше карточек по необходимости -->
-        </div>
-      </main>
-    
-      <footer class="site-footer">
-        <p>© <span id="year2"></span> Ваше Имя — Портфолио</p>
-      </footer>
-    
-      <script>
-        document.getElementById('year2').textContent = new Date().getFullYear();
-      </script>
-    </body>
-    </html>
-    """),
-    "contact.html": textwrap.dedent("""\
-    <!doctype html>
-    <html lang="ru">
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <title>Контакты — Ваше имя</title>
-      <link rel="stylesheet" href="css/styles.css">
-    </head>
-    <body>
-      <header class="site-header">
-        <nav class="nav">
-          <a class="logo" href="index.html">Моё портфолио</a>
-          <ul class="nav-list">
-            <li><a href="index.html#about">Обо мне</a></li>
-            <li><a href="projects.html">Проекты</a></li>
-            <li><a href="contact.html">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
-    
-      <main class="contact-page">
-        <h1>Контакты</h1>
-        <p>Пожалуйста, заполните форму: <strong>1)</strong> Тема (например: Предложение по работе или Улучшение). <strong>2)</strong> Ваш контакт (Telegram / Instagram / Email). <strong>3)</strong> Сообщение.</p>
-    
-        <form id="contactForm" class="contact-form">
-          <label>
-            Тема
-            <input id="subject" type="text" name="subject" required>
-          </label>
-    
-          <label>
-            Контакт отправителя (Telegram / Instagram / Email)
-            <input id="contactInfo" type="text" name="contactInfo" required>
-          </label>
-    
-          <label>
-            Сообщение
-            <textarea id="message" name="message" rows="6" required></textarea>
-          </label>
-    
-          <div class="form-actions">
-            <button id="sendBtn" type="button" disabled>Отправить</button>
-            <button id="clearBtn" type="button">Очистить</button>
-          </div>
-    
-          <p class="note">Или свяжитесь: <a href="https://hh.uz" target="_blank">hh.uz</a> • <a href="https://t.me/ваш_ник" target="_blank">Telegram</a> • <a href="mailto:you@example.com">you@example.com</a></p>
-        </form>
-      </main>
-    
-      <footer class="site-footer">
-        <p>© <span id="year3"></span> Ваше Имя — Портфолио</p>
-      </footer>
-    
-      <script src="js/main.js"></script>
-      <script>document.getElementById('year3').textContent = new Date().getFullYear();</script>
-    </body>
-    </html>
-    """),
-    "css/styles.css": textwrap.dedent("""\
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#06b6d4;
-      --muted:#9aa4b2;
-      --glass: rgba(255,255,255,0.03);
-      --radius:12px;
-      --maxw:1100px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: linear-gradient(180deg,#071029 0%, #0b2030 100%);
-      color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-    }
-    .site-header{padding:18px 24px; backdrop-filter: blur(6px);}
-    .nav{max-width:var(--maxw); margin:0 auto; display:flex; justify-content:space-between; align-items:center;}
-    .logo{font-weight:700; color:var(--accent); text-decoration:none;}
-    .nav-list{list-style:none; display:flex; gap:14px; margin:0; padding:0;}
-    .nav-list a{color:var(--muted); text-decoration:none;}
-    .hero{max-width:var(--maxw); margin:28px auto; padding:28px; display:flex; gap:20px; align-items:center;}
-    .hero-left{flex:1}
-    .hero-right{width:140px; display:flex; justify-content:center; align-items:center;}
-    h1{font-size:2.2rem; margin:0 0 8px 0}
-    .lead{color:var(--muted); margin:8px 0 16px 0}
-    .btn{display:inline-block; padding:10px 14px; background:var(--accent); color:#022; border-radius:8px; text-decoration:none; font-weight:600;}
-    .btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted);}
-    .about, .projects-preview{max-width:var(--maxw); margin:20px auto; padding:20px;}
-    .skills{display:flex; flex-direction:column; gap:6px; padding-left:18px}
-    .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:12px;}
-    .card{background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    .site-footer{max-width:var(--maxw); margin:40px auto; padding:18px; color:var(--muted)}
-    #minion{width:120px; height:120px; position:fixed; right:20px; top:20px; z-index:1000; cursor:pointer; }
-    .final-btn{position:fixed; right:20px; bottom:20px; background:var(--accent); color:#022; border:none; padding:10px 12px; border-radius:10px; cursor:pointer;}
-    .contact-page{max-width:700px; margin:20px auto; padding:18px;}
-    .contact-form label{display:block; margin-bottom:12px;}
-    .contact-form input, .contact-form textarea{width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit;}
-    .form-actions{display:flex; gap:10px; margin-top:8px;}
-    .form-actions button{padding:10px 12px; border-radius:8px; border:none; cursor:pointer;}
-    .form-actions button[disabled]{opacity:0.45; cursor:not-allowed}
-    @media (max-width:720px){
-      .hero{flex-direction:column; align-items:flex-start;}
-      #minion{display:none;}
-    }
-    """),
-    "js/main.js": textwrap.dedent("""\
-    // Общая логика: год в футере и форма контактов
-    document.addEventListener('DOMContentLoaded', () => {
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-    
-      // Contact form logic (works on contact.html)
-      const subject = document.getElementById('subject');
-      const contactInfo = document.getElementById('contactInfo');
-      const message = document.getElementById('message');
-      const sendBtn = document.getElementById('sendBtn');
-      const clearBtn = document.getElementById('clearBtn');
-    
-      function check() {
-        if (!sendBtn) return;
-        if (subject.value.trim() && contactInfo.value.trim() && message.value.trim()) {
-          sendBtn.disabled = false;
-        } else {
-          sendBtn.disabled = true;
-        }
-      }
-    
-      [subject, contactInfo, message].forEach(el => {
-        if (el) el.addEventListener('input', check);
-      });
-    
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          if (subject) subject.value = '';
-          if (contactInfo) contactInfo.value = '';
-          if (message) message.value = '';
-          check();
-        });
-      }
-    
-      if (sendBtn) {
-        sendBtn.addEventListener('click', async () => {
-          // Замените URL на ваш endpoint Formspree или используйте EmailJS
-          const endpoint = 'https://formspree.io/f/your-id';
-          const payload = {
-            subject: subject.value,
-            contact: contactInfo.value,
-            message: message.value
-          };
-          try {
-            const resp = await fetch(endpoint, {
-              method: 'POST',
-              headers: {'Content-Type':'application/json'},
-              body: JSON.stringify(payload)
-            });
-            if (resp.ok) {
-              alert('Сообщение отправлено! Спасибо.');
-              clearBtn.click();
-            } else {
-              alert('Ошибка при отправке — проверьте endpoint формы.');
-            }
-          } catch (err) {
-            console.error(err);
-            alert('Сетевая ошибка. Проверьте подключение.');
-          }
-        });
-      }
-    });
-    """),
-    "js/lottie-control.js": textwrap.dedent("""\
-    // Подключаем Lottie через CDN; файл подключается в index.html
-    (function(){
-      // Загружаем lottie через CDN (в браузере). Файл подключается как обычный <script src="js/lottie-control.js"></script>
-      // В index.html мы ожидаем, что lottie уже будет загружен из CDN; тут делаем контроль анимации и "финал".
-      function loadLottieThenInit(){
-        if (!window.lottie) {
-          // Подключаем CDN скрипт динамически
-          var s = document.createElement('script');
-          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js';
-          s.onload = init;
-          document.head.appendChild(s);
-        } else init();
-    
-        function init(){
-          var container = document.getElementById('minion');
-          if (!container) return;
-    
-          var anim = lottie.loadAnimation({
-            container: container,
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            // Поставьте сюда путь к вашей Lottie-анимации (minion.json) в assets/
-            path: 'assets/animations/minion.json'
-          });
-    
-          // Нажатие на контейнер — проиграть небольшой эффект (если есть)
-          container.addEventListener('click', () => {
-            try { anim.playSegments([0,40], true); } catch(e){}
-          });
-    
-          // Кнопка "Финал"
-          var finalBtn = document.getElementById('finalBtn');
-          if (finalBtn) {
-            finalBtn.addEventListener('click', () => {
-              // Простая CSS-анимация: контейнер падает вниз и исчезает
-              container.style.transition = 'transform 1s ease-in, opacity 0.7s ease';
-              container.style.transform = 'translateY(120vh) rotate(25deg)';
-              container.style.opacity = '0';
-              setTimeout(() => {
-                var end = document.createElement('div');
-                end.textContent = 'Конец';
-                end.style.position = 'fixed';
-                end.style.left = '50%';
-                end.style.top = '50%';
-                end.style.transform = 'translate(-50%,-50%)';
-                end.style.fontSize = '2rem';
-                end.style.fontWeight = '700';
-                end.style.background = 'rgba(0,0,0,0.6)';
-                end.style.padding = '20px 30px';
-                end.style.borderRadius = '12px';
-                document.body.appendChild(end);
-              }, 1000);
-            });
-          }
-        }
-      }
-    
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadLottieThenInit);
-      } else loadLottieThenInit();
-    })();
-    """),
-    "assets/animations/minion.json": textwrap.dedent("""\
-    {
-      "v": "5.7.4",
-      "fr": 30,
-      "ip": 0,
-      "op": 60,
-      "w": 200,
-      "h": 200,
-      "nm": "placeholder",
-      "ddd": 0,
-      "assets": [],
-      "layers": [
-        {
-          "ty": 4,
-          "nm": "circle",
-          "sr": 1,
-          "ks": {
-            "o": {"k":100},
-            "r": {"k":0},
-            "p": {"k":[100,100,0]},
-            "a": {"k":[0,0,0]},
-            "s": {"k":[100,100,100]}
-          },
-          "shapes":[
-            {"ty":"el","p":{"k":[0,0]},"s":{"k":[120,120]},"nm":"ellipsePath"},
-            {"ty":"fl","c":{"k":[0.992,0.882,0.149,1]},"o":{"k":100},"nm":"fill"}
-          ],
-          "ip":0,"op":9999,"st":0,"bm":0
-        }
-      ]
-    }
-    """),
-    "resume.pdf": "",  # empty placeholder file (user can replace)
-    "README.md": textwrap.dedent("""\
-    # Портфолио — шаблон
-    
-    В этом репозитории пример простого статического портфолио для деплоя на GitHub Pages.
-    
-    Как использовать:
-    1. Распакуйте архив и откройте файлы в редакторе.
-    2. Замените тексты (Ваше Имя, ссылки на проекты, контактные данные).
-    3. Подмените assets/animations/minion.json на реальную Lottie-анимацию (скачайте с LottieFiles).
-    4. Настройте endpoint формы: в `js/main.js` замените `https://formspree.io/f/your-id` на ваш endpoint Formspree или используйте EmailJS.
-    5. Инициализируйте git, добавьте репозиторий на GitHub и включите Pages (Settings → Pages → branch: main, folder: /).
-    
-    Пример структуры:
-    ```
-    index.html
-    projects.html
-    contact.html
-    css/styles.css
-    js/main.js
-    js/lottie-control.js
-    assets/animations/minion.json
-    resume.pdf
-    README.md
-    ```
-    """)
-}
+    <section id="about" class="about">
+      <h2>Образование</h2>
+      <p><strong>Университет:</strong> Ташкентский университет информационных технологий (TUIT). Курс: 4-й. Специальность: Информационная безопасность.</p>
 
+      <h3>Навыки</h3>
+      <ul class="skills">
+        <li>Сетевые технологии (настройка роутеров, свитчей, firewall)</li>
+        <li>Пентестинг, сканирование (Kali Linux)</li>
+        <li>Docker, Kubernetes, мониторинг (Zabbix)</li>
+        <li>Asterisk — настройка IP-телефонии</li>
+        <li>C++, Python, HTML, CSS</li>
+      </ul>
+
+      <p><a href="resume.pdf" class="btn">Скачать резюме (PDF)</a></p>
+    </section>
+
+    <section class="projects-preview">
+      <h2>Проекты</h2>
+      <div class="cards">
+        <article class="card">
+          <h4>Название проекта 1</h4>
+          <p>Короткое описание — стек: Python, Flask. <a href="#" target="_blank">GitHub</a></p>
+        </article>
+
+        <article class="card">
+          <h4>Название проекта 2</h4>
+          <p>Короткое описание — стек: Docker, Ansible. <a href="#" target="_blank">GitHub</a></p>
+        </article>
+      </div>
+      <p><a href="projects.html" class="btn btn-ghost">Все проекты</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Ваше Имя — Портфолио</p>
+  </footer>
+  <button id="finalBtn" class="final-btn" title="Финал">Финал</button>
+  <script src="js/test.js"></script>
+</body>
+</html>

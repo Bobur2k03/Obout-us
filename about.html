@@ -1,146 +1,120 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обо мне - Портфолио</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Обо мне — Bobur | Портфолио</title>
+  <meta name="description" content="Bobur — начинающий системный администратор. Linux, сети, автоматизация, мониторинг. TUIT (2021–2025)." />
+   <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/about.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div id="header">
-  <noscript>
-    <header>
-      <nav class="navbar"><div class="nav-container">
-        <div class="nav-logo"><h2>Портфолио</h2></div>
-        <ul class="nav-menu">
-          <li><a href="index.html">Главная</a></li>
-          <li><a href="about.html">Обо мне</a></li>
-        </ul>
-      </div></nav>
-    </header>
-  </noscript>
-</div>
+  <div id="header"></div>
+  <main>
+    <section class="hero reveal" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <h1 id="hero-title">Привет, я Bobur</h1>
+          <p class="hero-lead">Начинающий системный администратор. Настраиваю и автоматизирую Linux‑инфраструктуры, внедряю мониторинг и обеспечиваю стабильность сервисов.</p>
 
-    <main>
-        <!-- Заголовок страницы -->
-        <section class="page-header">
-            <div class="container">
-                <h1 class="page-title">Обо мне</h1>
-                <p class="page-subtitle">Узнайте больше о моем профессиональном пути и опыте</p>
-            </div>
-        </section>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="portfolio.html">Посмотреть портфолио</a>
+            <a class="btn btn-ghost" href="contact.html">Контакты</a>
+          </div>
 
-        <!-- Обо мне -->
-        <section class="about">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>Привет! Меня зовут Бобур</h2>
-                        <p>
-                            Я системный администратор с более чем 2-летним опытом работы с 
-                            IT-инфраструктурой. Моя карьера началась с глубокого интереса к Linux 
-                            и сетевым технологиям еще во время учебы в TUIT. С тех пор я успешно 
-                            реализовал десятки проектов по настройке серверов, внедрению систем 
-                            мониторинга и автоматизации рутинных задач.
-                        </p>
-                        <p>
-                            Специализируюсь на администрировании Linux-серверов (Ubuntu, CentOS, Debian), 
-                            построении отказоустойчивых систем, настройке сетевой инфраструктуры и 
-                            обеспечении безопасности. Имею практический опыт работы с Docker, Kubernetes, 
-                            системами мониторинга Zabbix и Grafana, а также автоматизацией через Ansible.
-                        </p>
-                        <p>
-                            Моя философия работы - создание надежных, масштабируемых и безопасных 
-                            IT-решений. Я постоянно развиваюсь, изучаю новые технологии DevOps и 
-                            cloud-инфраструктуры, чтобы предоставлять современные и эффективные решения 
-                            для любых задач.
-                        </p>
-                    </div>
-                    <div class="about-image">
-                        <img src="Images/punpun.jpg" alt="Александр Иванов" class="about-img" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- Образование -->
-        <section class="education">
-            <div class="container">
-                <h2 class="section-title">Образование</h2>
-                <div class="education-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">2020 - 2024</div>
-                        <div class="timeline-content">
-                            <h3>Ташкентский Университет Информационных Технологий (TUIT)</h3>
-                            <p class="timeline-degree">Бакалавр информационной безопасности</p>
-                            <p>Изучал основы информационной безопасности, сетевые технологии, 
-                            операционные системы, криптографию. Участвовал в студенческих 
-                            проектах по пентестингу и хакатонах по кибербезопасности.</p>
-                        </div>
-                </div>
-            </div>
-        </section>
+        <aside class="hero-image" aria-hidden="false">
+          <img src="images/punpun.jpg" alt="Фото Bobur" class="profile-img" loading="lazy" decoding="async" />
+        </aside>
+      </div>
+    </section>
+    <section class="about reveal" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 id="about-title" class="section-title">Моя история</h2>
 
-        <!-- Навыки -->
-        <section class="skills-detailed">
-            <div class="container">
-                <h2 class="section-title">Технические навыки</h2>
-                <div class="skills-categories square-grid">
-                    <div class="skill-card square">
-                        <i class="fab fa-linux"></i>
-                        <h3>Операционные системы</h3>
-                        <ul>
-                            <li>Linux (Ubuntu, CentOS, Debian)</li>
-                            <li>Windows Server</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card square">
-                        <i class="fas fa-network-wired"></i>
-                        <h3>Сетевые технологии</h3>
-                        <ul>
-                            <li>TCP/IP, VLAN, VPN</li>
-                            <li>Маршрутизаторы, коммутаторы</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card square">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Безопасность</h3>
-                        <ul>
-                            <li>Пентестинг, аудит, мониторинг</li>
-                            <li>Firewall, Fail2ban, IDS/IPS</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card square">
-                        <i class="fab fa-docker"></i>
-                        <h3>Контейнеризация и DevOps</h3>
-                        <ul>
-                            <li>Docker, Kubernetes, Ansible</li>
-                            <li>CI/CD, Git, Bash</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card square">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Мониторинг и автоматизация</h3>
-                        <ul>
-                            <li>Zabbix, Grafana, Nagios</li>
-                            <li>Автоматизация задач, скрипты</li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="about-content">
+          <aside class="about-image">
+            <img src="images/obout-us/admins-life.jpeg" alt="Иллюстрация: жизнь администратора" class="about-img" loading="lazy" decoding="async" />
+          </aside>
+
+          <div class="about-text">
+            <h3>Как всё началось</h3>
+
+            <p>Я — <strong>Bob</strong>. Интерес к системному администрированию появился ещё в университете, где я изучал информационную безопасность (TUIT, бакалавр 2021–2025). Сначала мне нравилось заниматься пентестингом: сканировать порты, искать уязвимости и решать CTF‑задачи — проходить «по флагу».</p>
+
+            <p>На одном из занятий по сетевой безопасности мы начали поднимать инфраструктуру, настраивать правила блокировки портов и выполнять практические задания. Видеть, как изменения сразу влияют на сеть и сервисы, оказалось очень увлекательно.</p>
+
+            <p>Постепенно я стал совмещать знания по безопасности и сетевому администрированию, и это привело меня к роли системного администратора.</p>
+
+
+            <p class="story-note">На одном из занятий мы подробно разбирали сценарии блокировки портов и тестировали правила в лабораторной сети — этот практический опыт показал, как важно сочетать теорию и практику.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- APPROACH -->
+    <section class="approach reveal" id="approach" aria-labelledby="approach-title">
+      <div class="container">
+        <h2 id="approach-title" class="section-title">Подход к работе</h2>
+
+        <div class="work-approach">
+          <article class="approach-card">
+            <div class="approach-icon" aria-hidden="true"><i class="fas fa-terminal"></i></div>
+            <h4>Минимально рабочее → автоматизация</h4>
+            <p class="muted">Сначала делаю рабочее решение, затем автоматизирую его, чтобы команда могла воспроизводить и масштабировать процесс.</p>
+          </article>
+
+          <article class="approach-card">
+            <div class="approach-icon" aria-hidden="true"><i class="fab fa-github"></i></div>
+            <h4>Документирование и код</h4>
+            <p class="muted">Веду простые playbook’и и документацию; весь код храню в GitHub для прозрачности и истории изменений.</p>
+          </article>
+
+          <article class="approach-card">
+            <div class="approach-icon" aria-hidden="true"><i class="fas fa-chart-line"></i></div>
+            <h4>Воспроизводимость и мониторинг</h4>
+            <p class="muted">Ставлю на мониторинг и метрики: дашборды, алерты и логирование помогают быстро реагировать и восстанавливать систему.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects reveal" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 id="projects-title" class="section-title">Учебные проекты</h2>
+
+        <div class="projects-grid">
+          <article class="project-card">
+            <h3>Site to site VPN между филиалами </h3>
+            <p class="project-meta muted">Site-to-site  Ipsek  Openvpn</p>
+            <p class="project-desc muted">Playbook для развёртывания LEMP‑стека на чистой виртуальной машине. Включает базовую конфигурацию, бэкап и инструкцию по восстановлению.</p>
+            <div class="project-links">
+              <a href="https://github.com/your-repo/lemp-ansible" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
             </div>
-        </section>
-    </main>
-    <div id="footer"></div>
-    <script src="js/header.js"></script>
-    <script src="js/footer.js"></script>
-    <script src="js/about.js"></script>
+          </article>
+
+          <article class="project-card">
+            <h3>Мониторинг локального стенда</h3>
+            <p class="project-meta muted">Zabbix · Grafana · Docker</p>
+            <p class="project-desc muted">Стенд в Docker Compose с Zabbix и Grafana, демонстрация алертов и простых дашбордов для учебных целей.</p>
+            <div class="project-links">
+              <a href="https://github.com/your-repo/monitoring-demo" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/about.js"></script>
 </body>
 </html>

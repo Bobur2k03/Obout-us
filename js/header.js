@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+        document.getElementById('header').innerHTML = html;
         initHeader();
       });
 

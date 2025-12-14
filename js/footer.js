@@ -1,58 +1,30 @@
-// js/footer.js — надежная загрузка footer и динамический год (исправленный)
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   const target = document.getElementById('footer');
 
-  const candidates = [
+  const paths = [
     'footer.html',
     './footer.html',
     '/footer.html',
     '../footer.html'
   ];
 
-  (async function tryLoad() {
-    let loaded = false;
-    for (const p of candidates) {
+  (async function loadFooter() {
+    for (const path of paths) {
       try {
-        const res = await fetch(p + '?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        const res = await fetch(path + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error(res.status);
         const html = await res.text();
-        if (target) target.innerHTML = html;
-        else document.body.insertAdjacentHTML('beforeend', html);
+        target.innerHTML = html;
         initFooter();
-        loaded = true;
-        break;
-      } catch (e) {
-        console.debug('footer fetch failed for', p, e.message || e);
-      }
+        return;
+      } catch (_) {}
     }
 
-    if (!loaded) {
-      console.error('Не удалось загрузить footer (проверьте путь и Network в DevTools).');
-      // minimal fallback footer (показываем навигацию, чтобы сайт был работоспособен)
-      if (target) {
-        target.innerHTML = `
-          <footer class="footer">
-            <div class="footer-content">
-              <div class="footer-section">
-                <h3>Навигация</h3>
-                <ul>
-                  <li><a href="index.html">Главная</a></li>
-                  <li><a href="about.html">Обо мне</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="footer-bottom">
-              &copy; <span id="footer-year"></span> Портфолио
-            </div>
-          </footer>
-        `;
-        initFooter();
-      }
-    }
+    console.error('Footer не загружен — проверь путь');
   })();
 
   function initFooter() {
-    const yearSpan = document.getElementById('footer-year');
-    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    const year = document.getElementById('footer-year');
+    if (year) year.textContent = new Date().getFullYear();
   }
 });

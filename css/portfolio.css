@@ -1,218 +1,411 @@
-/* css/portfolio.css - исправленная версия: стабильный toggle, аккуратные теги, немного шире карточки */
-
-/* ========== Переменные ========== */
-:root{
-  --bg-1: #181a20;
-  --bg-2: #101114;
-  --card-bg: #20222a;
-  --card-border: #35373f;
-  --muted: #e5e7eb;
-  --text: #ffffff;
+:root {
+  --bg-1:#181a20
   --accent: #fbbf24;
   --accent-dark: #f59e0b;
-  --card-radius: 12px;
-  --card-shadow: 0 2px 16px rgba(0,0,0,0.18);
-  --container-width: 1200px;
+  --card-bg: #1e293b;
+  --card-border: #181a20;
+  --card-shadow: 0 8px 24px rgba(0,0,0,0.28);
 }
 
-/* ========== Базовые ========== */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0}
-body{
-  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
-  color:var(--text);
-  font-family: "Inter", Arial, sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.45;
-}
-.container{max-width:var(--container-width);margin:0 auto;padding:0 18px}
-
-/* ========== Сетка портфолио ========== */
-/* Увеличил минимальную ширину карточки до 280px, чтобы выглядеть шире */
-.portfolio{padding:20px 0 36px}
-.portfolio-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1rem;
+/* ===============================
+   ОСНОВА СТРАНИЦЫ
+================================ */
+body {
+  color: #ffffff;
+  background-color: #181a20;
+  font-family: 'Inter', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ========== Карточка: компактная и ровная ========== */
-.portfolio-item{
-  background:var(--card-bg);
-  border-radius:var(--card-radius);
-  box-shadow:var(--card-shadow);
-  border:1.25px solid var(--card-border);
-  color:var(--text);
-  padding: 0.95rem;
-  display:flex;
-  flex-direction:column;
-  min-height: 300px;
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-/* Hover/focus */
+/* ===============================
+   ЗАГОЛОВОК
+================================ */
+.page-header {
+  padding: 3rem 0 1.5rem;
+}
+
+.page-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: #cbd5f5;
+  margin-top: .4rem;
+  margin-bottom: 0;
+}
+
+/* ===============================
+   ФИЛЬТРЫ
+================================ */
+.filter-buttons {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-btn {
+  background: #181a20;
+  color: #fff;
+  border: 1px solid #334155;
+  padding: .45rem .9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .95rem;
+  transition: background .18s ease, color .12s ease, box-shadow .12s ease;
+}
+
+.filter-btn:hover {
+  background: color-mix(in srgb, var(--accent) 90%, #1e293b);
+}
+
+.filter-btn.active,
+.filter-btn:focus {
+  background: var(--accent);
+  color: #181a20 ;
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 6px 18px rgba(251,191,36,0.12);
+}
+
+/* ===============================
+   ПОРТФОЛИО СЕТКА
+================================ */
+.portfolio {
+  padding: 2rem 0 4rem;
+  background: #181a20;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.4rem;
+}
+
+/* ===============================
+   КАРТОЧКА ПРОЕКТА
+================================ */
+.portfolio-item {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--card-border);
+  transition: transform .2s ease, box-shadow .2s ease;
+  min-height: 220px;
+}
+
 .portfolio-item:hover,
-.portfolio-item:focus-within{
-  border-color:var(--accent);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  transform: translateY(-4px);
+.portfolio-item:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
 }
 
 /* Заголовок */
-.portfolio-title-block { order:0; margin-bottom:8px; }
-.portfolio-title-block h3{ margin:0; font-size:1.12rem; line-height:1.2; color:var(--text) }
+.portfolio-title-block h3 {
+  font-size: 1.15rem;
+  margin: 0 0 .6rem 0;
+  line-height: 1.2;
+}
 
-/* Медиазона — квадрат компактный */
+/* ===============================
+   ИЗОБРАЖЕНИЕ
+================================ */
 .portfolio-image {
-  order:1;
-  width:100%;
-  aspect-ratio: 1 / 1; /* квадрат */
-  min-height: 120px;
-  border-radius:8px;
-  overflow:hidden;
-  background: rgba(255,255,255,0.02);
-  margin-bottom: 0.6rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: .7rem;
+  background: #020617 ;
 }
+
 .portfolio-image img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* Описание — гибкий блок */
-.portfolio-desc-block { order:2; flex:1 1 auto; margin-top:0.35rem; display:flex; flex-direction:column; gap:0.45rem; }
-.portfolio-desc-block p { margin:0; color:var(--muted); font-size:0.95rem; line-height:1.4; }
-
-/* Нижняя строка прилипает к низу */
-.portfolio-bottom-row { order:3; margin-top:auto; display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; }
-
-/* ========== Хэштеги: компактные и аккуратные ========== */
-/* по умолчанию строка; лишние скрывает JS в +N */
-.portfolio-tech {
-  display:flex;
-  flex-direction:row;
-  gap:0.32rem;
-  align-items:center;
-  flex-wrap:nowrap;
-  overflow:visible;
+/* ===============================
+   ОПИСАНИЕ
+================================ */
+.portfolio-desc-block {
+  font-size: .95rem;
+  color: #e5e7eb;
+  line-height: 1.4;
+  margin-bottom: .6rem;
 }
 
-/* теги уменьшенный шрифт, более аккуратные padding */
-.tech-tag {
-  background:transparent;
-  color:var(--text);
-  border:1px solid var(--accent);
-  border-radius:999px;
-  padding:0.08rem 0.45rem;
-  font-weight:500;
-  font-size:0.78rem; /* уменьшено */
-  white-space:nowrap;
-  display:inline-flex;
-  align-items:center;
-  flex-shrink:0;
+.portfolio-desc-block.collapsed {
+  overflow: hidden;
+  max-height: 3.6em;
 }
 
-/* pilka +N */
-.tech-more {
-  background: rgba(255,255,255,0.02);
-  border:1px dashed rgba(255,255,255,0.08);
-  color:var(--muted);
-  cursor:pointer;
-  padding:0.08rem 0.45rem;
-  border-radius:999px;
-  font-weight:600;
-  font-size:0.78rem;
-  display:inline-flex;
-  align-items:center;
-  flex-shrink:0;
+.read-more-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: .85rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: .4rem;
 }
 
-/* Иконки справа */
-.portfolio-links { display:flex; gap:0.45rem; align-items:center; margin-left:auto; }
-.portfolio-link { width:32px; height:32px; background:#23242a; color:var(--accent); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; border:1px solid var(--card-border); transition: background .14s, color .14s, transform .12s; }
-.portfolio-link:hover, .portfolio-link:focus { background:var(--accent); color:#181a20; transform:translateY(-2px); outline:none; }
-.portfolio-link svg, .portfolio-link i { width:14px; height:14px; color:inherit; }
-
-/* ========== Превью / полный текст ========== */
-.preview { display:inline; }
-.fulltext { display:none; }
-.portfolio-item.expanded .preview { display:none; }
-.portfolio-item.expanded .fulltext { display:inline; }
-.ellipsis { margin-left:6px; color:var(--muted); }
-.desc-toggle { background:transparent;border:0;color:var(--accent);cursor:pointer;padding:6px 8px;border-radius:6px;margin-top:8px;align-self:flex-start; font-size:0.9rem; }
-
-/* ========== Детали ========== */
-.details-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-top:1.5rem; }
-.detail-card { background:var(--card-bg); border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.13); border:1.5px solid var(--card-border); color:var(--text); padding:1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; aspect-ratio:1/1.05 }
-
-/* Фокус видимый */
-:focus-visible { outline:3px solid rgba(251,191,36,0.26); outline-offset:2px; border-radius:6px }
-
-/* Адаптив */
-@media (max-width:700px){
-  .portfolio-grid { gap:1rem; grid-template-columns: 1fr; }
-  .portfolio-item { min-height: 340px; padding:0.85rem; }
-  .portfolio-image { aspect-ratio: 16 / 9; min-height: 140px; margin-bottom:0.5rem; }
-  .portfolio-tech { flex-wrap:wrap; gap:0.3rem; }
-  .tech-tag, .tech-more { font-size:0.8rem; padding:0.06rem 0.45rem; }
-}
-.project-details {
-  padding-bottom: 48px; /* пространство внутри секции */
-  margin-bottom: 18px;  /* пространство между секциями */
-}
-
-/* CTA-блок: центрированный, аккуратный */
-.cta {
-  padding: 40px 0 56px; /* верх/низ */
+/* ===============================
+   НИЖНЯЯ СТРОКА
+================================ */
+.portfolio-bottom-row {
   display: flex;
   align-items: center;
+  gap: .6rem;
+  margin-top: auto;
+}
+
+/* ===============================
+   ХЭШТЕГИ
+================================ */
+.portfolio-tech {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tech-tag {
+  font-size: .72rem;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ===============================
+   ССЫЛКИ
+================================ */
+.portfolio-links {
+  margin-left: auto;
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+}
+
+.portfolio-link {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #181a20;
+  border: 1px solid var(--card-border);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  background: transparent; /* если нужно — можно задать фон */
-}
-
-/* Контент CTA */
-.cta .cta-content {
-  max-width: 760px;
-  width: 100%;
-  padding: 28px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-/* Кнопка (в случае, если в вашем base.css нет .btn .btn-primary) */
-.btn {
-  display: inline-block;
+  transition: background .18s ease, color .18s ease, transform .12s ease;
   text-decoration: none;
   cursor: pointer;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 1rem;
 }
 
-.btn-primary {
-  background: linear-gradient(90deg,#fbbf24,#f59e0b);
-  color: #181a20;
-  box-shadow: 0 4px 18px rgba(251,191,36,0.10);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 26px rgba(251,191,36,0.16);
+.portfolio-link:hover,
+.portfolio-link:focus {
+  background: var(--accent);
+  color: #020617;
+  transform: translateY(-2px);
   outline: none;
 }
 
-/* Небольшой ресайз для мобильных */
-@media (max-width: 700px) {
-  .project-details { padding-bottom: 28px; }
-  .cta { padding: 28px 0 36px; }
-  .cta .cta-content { padding: 18px; }
-  .btn { padding: 10px 20px; font-size: 0.95rem; }
+/* ===============================
+   ДЕТАЛИ ПРОЕКТОВ (СЛАЙДЕР)
+================================ */
+.project-details {
+  padding: 4rem 0;
+  background: #181a20;
+}
+
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Обёртка */
+.details-slider {
+  position: relative;
+  padding: 24px 0;
+  --slide-gap: 20px;
+  --slide-visible: 3;
+}
+
+.details-slider .slider-viewport {
+  width: min(1080px, 96%);
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Лента */
+.details-slider .slider-track {
+  display: flex;
+  gap: var(--slide-gap);
+  transition: transform .45s cubic-bezier(.22,.9,.3,1);
+  will-change: transform;
+  align-items: stretch;
+}
+
+/* Слайд */
+.details-slider .slide {
+  flex: 0 0 calc((100% - (var(--slide-gap) * (var(--slide-visible) - 1))) / var(--slide-visible));
+  max-width: calc((100% - (var(--slide-gap) * (var(--slide-visible) - 1))) / var(--slide-visible));
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 6px;
+}
+
+/* Карточка детали */
+.details-slider .detail-card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Иконка */
+.details-slider .detail-icon,
+.detail-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--accent), var(--accent-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+/* ===============================
+   КНОПКИ СЛАЙДЕРА
+================================ */
+.details-slider .slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 0;
+  background: rgba(10,12,18,0.8);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+}
+
+/* Выравнивание кнопок относительно max-width 1080 */
+.details-slider .slider-btn.prev { left: calc(50% - 540px - 28px); }
+.details-slider .slider-btn.next { right: calc(50% - 540px - 28px); }
+
+/* если контейнер уже меньше — поправим позиционирование кнопок */
+@media (max-width: 1100px) {
+  .details-slider .slider-btn.prev { left: 8px; }
+  .details-slider .slider-btn.next { right: 8px; }
+  .details-slider .slider-viewport { width: min(860px, 96%); }
+}
+
+/* Точки пагинации */
+.details-slider .slider-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.details-slider .slider-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+}
+
+.details-slider .slider-dots button[aria-selected="true"],
+.details-slider .slider-dots button.active {
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(251,191,36,0.14);
+}
+
+/* Адаптив: на tablet показываем 2, на мобильном 1 */
+@media (max-width: 900px) {
+  .details-slider { --slide-visible: 2; }
+  .details-slider .slider-viewport { width: min(720px, 96%); }
+}
+
+@media (max-width: 640px) {
+  .details-slider { --slide-visible: 1; }
+  .details-slider .slider-viewport { width: 96%; }
+  .details-slider .slider-btn { display: none; }
+}
+
+/* ===============================
+   АДАПТИВНОСТЬ
+================================ */
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .details-slider .detail-card {
+    width: 260px;
+  }
+}
+
+/* ===============================
+   Утилиты
+================================ */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+  width: auto;
+  height: auto;
+  background: #fff;
+  color: #020617;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
 }

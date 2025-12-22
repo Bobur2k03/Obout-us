@@ -1,392 +1,352 @@
-// js/contact.js — исправленная версия
+// js/contact.js
+// Улучшенная версия: валидация формы, отправка (симуляция), анимации карточек и FAQ-аккордеон.
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initContactForm();
-    initContactAnimations();
-    initContactFAQ();
-    initContactValidation();
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    ContactModule.init();
+  } catch (err) {
+    console.error('ContactModule init error:', err);
+  }
 });
 
-// -------------------------------
-// Инициализация формы контактов
-// -------------------------------
-function initContactForm() {
+const ContactModule = (function () {
+  let initialized = false;
+
+  return {
+    init
+  };
+
+  function init() {
+    if (initialized) return;
+    initialized = true;
+
+    initForm();
+    initCardAnimations();
+    initFAQ();
+  }
+
+  /* ===========================
+     Form: validation and submit
+     =========================== */
+  function initForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
 
-    const subject = document.getElementById('subject');
-    const contactMethod = Array.from(document.querySelectorAll('input[name="contactMethod"]'));
-    const contactInfo = document.getElementById('contactInfo');
-    const message = document.getElementById('message');
-    const submitBtn = document.getElementById('submitBtn');
-    const clearBtn = document.getElementById('clearBtn');
+    const subject = form.querySelector('#subject');
+    const contactMethodRadios = Array.from(form.querySelectorAll('input[name="contactMethod"]'));
+    const contactInfo = form.querySelector('#contactInfo');
+    const message = form.querySelector('#message');
+    const submitBtn = form.querySelector('#submitBtn');
+    const clearBtn = form.querySelector('#clearBtn');
+    const statusEl = form.querySelector('#formStatus');
 
-    // Проверка валидности формы
-    function checkFormValidity() {
-        const isSubjectValid = subject && subject.value.trim() !== '';
-        const isContactMethodValid = contactMethod.length && contactMethod.some(radio => radio.checked);
-        const isContactInfoValid = contactInfo && contactInfo.value.trim() !== '';
-        const isMessageValid = message && message.value.trim() !== '';
+    const errors = {
+      subject: form.querySelector('#subjectError'),
+      contactMethod: form.querySelector('#contactMethodError'),
+      contactInfo: form.querySelector('#contactInfoError'),
+      message: form.querySelector('#messageError')
+    };
 
-        const isValid = isSubjectValid && isContactMethodValid && isContactInfoValid && isMessageValid;
+    // initial state
+    submitBtn.disabled = true;
+    clearErrorMessages();
 
-        if (submitBtn) {
-            submitBtn.disabled = !isValid;
-            submitBtn.classList.toggle('btn-primary', isValid);
-            submitBtn.classList.toggle('btn-secondary', !isValid);
-        }
+    // Event listeners
+    subject?.addEventListener('input', quickValidate);
+    contactInfo?.addEventListener('input', onContactInfoInput);
+    message?.addEventListener('input', quickValidate);
+    contactMethodRadios.forEach(r => r.addEventListener('change', onContactMethodChange));
 
-        return isValid;
-    }
-
-    // Слушатели событий
-    if (subject) {
-        subject.addEventListener('input', checkFormValidity);
-        subject.addEventListener('change', checkFormValidity);
-    }
-
-    if (contactInfo) {
-        contactInfo.addEventListener('input', checkFormValidity);
-    }
-
-    if (message) {
-        message.addEventListener('input', checkFormValidity);
-    }
-
-    contactMethod.forEach(radio => {
-        radio.addEventListener('change', checkFormValidity);
+    clearBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      form.reset();
+      clearErrorMessages();
+      submitBtn.disabled = true;
+      showStatus('Форма очищена', 'info');
+      subject?.focus();
     });
 
-    // Очистка формы
-    if (clearBtn) {
-        clearBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            form.reset();
-            checkFormValidity();
-            clearErrorMessages();
-            showFormStatus('Форма очищена', 'info');
-        });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrorMessages();
+      if (!validateForm()) {
+        showStatus('Пожалуйста, исправьте ошибки в форме', 'error');
+        shake(form);
+        return;
+      }
+      await submitForm();
+    });
+
+    // Quick presence check to enable/disable submit
+    function quickValidate() {
+      const ok = Boolean(
+        subject && subject.value.trim() &&
+        contactMethodRadios.some(r => r.checked) &&
+        contactInfo && contactInfo.value.trim() &&
+        message && message.value.trim().length >= 10
+      );
+      submitBtn.disabled = !ok;
+      return ok;
     }
 
-    // Отправка формы
-    if (submitBtn) {
-        submitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            if (validateForm()) {
-                submitForm();
-            } else {
-                showFormStatus('Пожалуйста, заполните все поля корректно', 'error');
-                shakeForm();
-            }
-        });
-    }
-
-    // -------------------------------
-    // Валидация формы
-    // -------------------------------
+    // Detailed validation
     function validateForm() {
-        let isValid = true;
-        clearErrorMessages();
+      let valid = true;
 
-        // Валидация темы
-        if (!subject || subject.value.trim() === '') {
-            showError('subjectError', 'Выберите тему письма');
-            isValid = false;
+      if (!subject || !subject.value.trim()) {
+        showError('subject', 'Выберите тему письма');
+        valid = false;
+      }
+
+      const selectedMethod = contactMethodRadios.find(r => r.checked);
+      if (!selectedMethod) {
+        showError('contactMethod', 'Выберите способ связи');
+        valid = false;
+      }
+
+      const info = contactInfo ? contactInfo.value.trim() : '';
+      if (!info) {
+        showError('contactInfo', 'Введите контактные данные');
+        valid = false;
+      } else if (selectedMethod) {
+        const method = selectedMethod.value;
+        if (method === 'email' && !isEmail(info)) {
+          showError('contactInfo', 'Введите корректный email');
+          valid = false;
+        } else if (method === 'telegram' && !isTelegram(info)) {
+          showError('contactInfo', 'Введите Telegram в формате @username');
+          valid = false;
+        } else if (method === 'instagram' && !isInstagram(info)) {
+          showError('contactInfo', 'Введите Instagram в формате @username');
+          valid = false;
         }
+      }
 
-        // Валидация способа связи
-        const selectedMethod = contactMethod.find(radio => radio.checked);
-        if (!selectedMethod) {
-            showError('contactMethodError', 'Выберите способ связи');
-            isValid = false;
-        }
+      if (!message || message.value.trim().length < 10) {
+        showError('message', 'Сообщение должно содержать минимум 10 символов');
+        valid = false;
+      }
 
-        // Валидация контактных данных
-        if (!contactInfo || contactInfo.value.trim() === '') {
-            showError('contactInfoError', 'Введите контактные данные');
-            isValid = false;
-        } else {
-            // Дополнительная валидация в зависимости от выбранного способа
-            const contactValue = contactInfo.value.trim();
-            if (selectedMethod) {
-                const method = selectedMethod.value;
-                if (method === 'email' && !isValidEmail(contactValue)) {
-                    showError('contactInfoError', 'Введите корректный email адрес');
-                    isValid = false;
-                } else if (method === 'telegram' && !isValidTelegram(contactValue)) {
-                    showError('contactInfoError', 'Введите корректный Telegram (например: @username)');
-                    isValid = false;
-                } else if (method === 'instagram' && !isValidInstagram(contactValue)) {
-                    showError('contactInfoError', 'Введите корректный Instagram (например: @username)');
-                    isValid = false;
-                }
-            }
-        }
-
-        // Валидация сообщения
-        if (!message || message.value.trim() === '') {
-            showError('messageError', 'Введите сообщение');
-            isValid = false;
-        } else if (message.value.trim().length < 10) {
-            showError('messageError', 'Сообщение должно содержать минимум 10 символов');
-            isValid = false;
-        }
-
-        return isValid;
+      submitBtn.disabled = !valid;
+      return valid;
     }
 
-    // -------------------------------
-    // Вспомогательные валидаторы
-    // -------------------------------
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+    // Contact info live validation and visual hint
+    function onContactInfoInput() {
+      const selected = contactMethodRadios.find(r => r.checked);
+      if (!selected) return;
+      const val = contactInfo.value.trim();
+      if (!val) {
+        contactInfo.style.borderColor = '';
+        contactInfo.style.backgroundColor = '';
+        quickValidate();
+        return;
+      }
+      let ok = false;
+      switch (selected.value) {
+        case 'email': ok = isEmail(val); break;
+        case 'telegram': ok = isTelegram(val); break;
+        case 'instagram': ok = isInstagram(val); break;
+        default: ok = true;
+      }
+      contactInfo.style.borderColor = ok ? '#10b981' : '#ef4444';
+      contactInfo.style.backgroundColor = ok ? '#f0fdf4' : '#fff1f2';
+      quickValidate();
     }
 
-    function isValidTelegram(telegram) {
-        const telegramRegex = /^@[a-zA-Z0-9_]{5,32}$/;
-        return telegramRegex.test(telegram);
+    function onContactMethodChange() {
+      const selected = contactMethodRadios.find(r => r.checked);
+      if (!selected) return;
+      const placeholders = {
+        email: 'Введите ваш email адрес',
+        telegram: 'Введите ваш Telegram (например: @username)',
+        instagram: 'Введите ваш Instagram (например: @username)'
+      };
+      contactInfo.placeholder = placeholders[selected.value] || 'Введите контактные данные';
+      contactInfo.dispatchEvent(new Event('input'));
     }
 
-    function isValidInstagram(instagram) {
-        const instagramRegex = /^@[a-zA-Z0-9._]{1,30}$/;
-        return instagramRegex.test(instagram);
+    // Submit (simulated)
+    async function submitForm() {
+      try {
+        submitBtn.disabled = true;
+        const prevText = submitBtn.textContent;
+        submitBtn.textContent = 'Отправка...';
+        showStatus('Отправка сообщения...', 'info');
+
+        const payload = {
+          subject: subject?.value || '',
+          contactMethod: contactMethodRadios.find(r => r.checked)?.value || '',
+          contactInfo: contactInfo?.value || '',
+          message: message?.value || '',
+          ts: new Date().toISOString()
+        };
+
+        await simulateNetwork(payload);
+
+        showStatus('Сообщение успешно отправлено. Спасибо!', 'success');
+        form.reset();
+        submitBtn.disabled = true;
+        submitBtn.textContent = prevText;
+        subject?.focus();
+      } catch (err) {
+        console.error('Submit error:', err);
+        showStatus('Ошибка при отправке. Попробуйте позже.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить';
+      }
     }
 
-    // -------------------------------
-    // UI: ошибки / статус / анимация
-    // -------------------------------
-    function showError(elementId, message) {
-        const errorElement = document.getElementById(elementId);
-        if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
+    // Helpers
+    function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function isTelegram(v) { return /^@[a-zA-Z0-9_]{5,32}$/.test(v); }
+    function isInstagram(v) { return /^@[a-zA-Z0-9._]{1,30}$/.test(v); }
+
+    function showError(key, text) {
+      const el = errors[key];
+      if (!el) return;
+      el.textContent = text;
+      el.style.display = 'block';
+      el.setAttribute('aria-hidden', 'false');
     }
 
     function clearErrorMessages() {
-        document.querySelectorAll('.error-message').forEach(error => {
-            error.style.display = 'none';
-            error.textContent = '';
-        });
+      Object.values(errors).forEach(el => {
+        if (!el) return;
+        el.textContent = '';
+        el.style.display = 'none';
+        el.setAttribute('aria-hidden', 'true');
+      });
     }
 
-    function showFormStatus(message, type) {
-        const statusElement = document.getElementById('formStatus');
-        if (statusElement) {
-            statusElement.textContent = message;
-            statusElement.className = `form-status ${type}`;
-            statusElement.style.display = 'block';
-
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-            }, 5000);
-        }
+    function showStatus(text, type = 'info') {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.className = `form-status ${type}`;
+      statusEl.setAttribute('aria-live', 'polite');
+      if (type === 'info' || type === 'success') {
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(() => {
+          statusEl.textContent = '';
+          statusEl.className = 'form-status';
+        }, 5000);
+      }
     }
 
-    function shakeForm() {
-        form.classList.add('form-shake');
+    function shake(node) {
+      node.classList.add('form-shake');
+      setTimeout(() => node.classList.remove('form-shake'), 500);
+    }
+
+    function simulateNetwork(data) {
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
-            form.classList.remove('form-shake');
-        }, 500);
+          console.log('Simulated payload:', data);
+          Math.random() > 0.08 ? resolve(data) : reject(new Error('Simulated network error'));
+        }, 900);
+      });
     }
+  }
 
-    // -------------------------------
-    // Отправка формы (заглушка)
-    // -------------------------------
-    function submitForm() {
-        showFormStatus('Отправка сообщения...', 'info');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Отправка...';
-        }
-
-        const formData = {
-            subject: subject ? subject.value : '',
-            contactMethod: contactMethod.find(radio => radio.checked)?.value || '',
-            contactInfo: contactInfo ? contactInfo.value : '',
-            message: message ? message.value : '',
-            timestamp: new Date().toISOString()
-        };
-
-        simulateFormSubmission(formData)
-            .then(() => {
-                showFormStatus('Сообщение успешно отправлено! Я свяжусь с вами в ближайшее время.', 'success');
-                form.reset();
-                checkFormValidity();
-            })
-            .catch((error) => {
-                showFormStatus('Ошибка при отправке сообщения. Попробуйте еще раз или свяжитесь со мной напрямую.', 'error');
-                console.error('Ошибка отправки формы:', error);
-            })
-            .finally(() => {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Отправить';
-                }
-            });
-    }
-
-    function simulateFormSubmission(data) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                console.log('Данные формы:', data);
-                if (Math.random() > 0.1) {
-                    resolve(data);
-                } else {
-                    reject(new Error('Ошибка сети'));
-                }
-            }, 2000);
-        });
-    }
-}
-
-// ---------------------------------
-// Анимации для контактов
-// ---------------------------------
-function initContactAnimations() {
-    const contactCards = document.querySelectorAll('.contact-card');
-    if (!contactCards.length) return;
+  /* ===========================
+     Card animations (IntersectionObserver)
+     =========================== */
+  function initCardAnimations() {
+    const cards = document.querySelectorAll('.contact-card');
+    if (!cards.length) return;
 
     if (!('IntersectionObserver' in window)) {
-        // Простейший fallback — показываем карточки без анимации
-        contactCards.forEach(card => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        });
-        return;
+      cards.forEach(c => {
+        c.style.opacity = '1';
+        c.style.transform = 'translateY(0)';
+      });
+      return;
     }
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('contact-card-float');
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    contactCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease';
-        observer.observe(card);
-
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-            this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
-        });
-
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-        });
-    });
-}
-
-// ---------------------------------
-// FAQ аккордеон (contact page)
-// ---------------------------------
-function initContactFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    if (!faqItems.length) return;
-
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (!question) return;
-
-        // Делаем вопрос фокусируемым для доступности, если нужно
-        if (!question.getAttribute('tabindex')) question.setAttribute('tabindex', '0');
-
-        question.addEventListener('click', function() {
-            const isActive = item.classList.contains('active');
-
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                }
-            });
-
-            item.classList.toggle('active', !isActive);
-        });
-
-        // Клавиши Enter / Space для открытия вопроса
-        question.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                question.click();
-            }
-        });
-    });
-}
-
-// ---------------------------------
-// Дополнительная валидация контактов
-// ---------------------------------
-function initContactValidation() {
-    const contactInfo = document.getElementById('contactInfo');
-    const contactMethod = Array.from(document.querySelectorAll('input[name="contactMethod"]'));
-
-    if (!contactInfo) return;
-    if (contactMethod.length) {
-        contactMethod.forEach(radio => {
-            radio.addEventListener('change', function() {
-                const method = this.value;
-                const placeholders = {
-                    email: 'Введите ваш email адрес',
-                    telegram: 'Введите ваш Telegram (например: @username)',
-                    instagram: 'Введите ваш Instagram (например: @username)'
-                };
-
-                contactInfo.placeholder = placeholders[method] || 'Введите ваши контактные данные';
-            });
-        });
-    }
-
-    contactInfo.addEventListener('input', function() {
-        const selectedMethod = contactMethod.find(radio => radio.checked);
-        if (!selectedMethod) return;
-
-        const method = selectedMethod.value;
-        const value = this.value.trim();
-
-        this.style.borderColor = '';
-        this.style.backgroundColor = '';
-
-        if (value) {
-            let isValid = false;
-            switch (method) {
-                case 'email':
-                    isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-                    break;
-                case 'telegram':
-                    isValid = /^@[a-zA-Z0-9_]{5,32}$/.test(value);
-                    break;
-                case 'instagram':
-                    isValid = /^@[a-zA-Z0-9._]{1,30}$/.test(value);
-                    break;
-            }
-
-            if (isValid) {
-                this.style.borderColor = '#10b981';
-                this.style.backgroundColor = '#f0fdf4';
-            } else {
-                this.style.borderColor = '#ef4444';
-                this.style.backgroundColor = '#fef2f2';
-            }
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        if (!prefersReduced) {
+          setTimeout(() => {
+            el.classList.add('contact-card-float');
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }, idx * 80);
+        } else {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
         }
-    });
-}
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-// Обработка ошибок
-window.addEventListener('error', function(e) {
-    console.error('Ошибка на странице контактов:', e && e.error ? e.error : e);
-});
+    cards.forEach(c => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(24px)';
+      c.style.transition = prefersReduced ? 'none' : 'all 0.56s cubic-bezier(.2,.9,.3,1)';
+      observer.observe(c);
+
+      c.addEventListener('mouseenter', () => {
+        c.style.transform = 'translateY(-8px) scale(1.02)';
+        c.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+      });
+      c.addEventListener('mouseleave', () => {
+        c.style.transform = 'translateY(0) scale(1)';
+        c.style.boxShadow = '';
+      });
+    });
+  }
+
+  /* ===========================
+     FAQ accordion (accessible)
+     =========================== */
+  function initFAQ() {
+    const items = document.querySelectorAll('.faq-item');
+    if (!items.length) return;
+
+    items.forEach(item => {
+      const btn = item.querySelector('.faq-question');
+      const panelId = btn?.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : item.querySelector('.faq-answer');
+
+      if (!btn || !panel) return;
+
+      // Ensure button semantics
+      if (btn.tagName.toLowerCase() !== 'button') {
+        btn.setAttribute('role', 'button');
+        btn.tabIndex = 0;
+      }
+
+      btn.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close others (only one open)
+        items.forEach(other => {
+          const otherBtn = other.querySelector('.faq-question');
+          const otherPanelId = otherBtn?.getAttribute('aria-controls');
+          const otherPanel = otherPanelId ? document.getElementById(otherPanelId) : other.querySelector('.faq-answer');
+          if (!otherBtn || !otherPanel) return;
+          otherBtn.setAttribute('aria-expanded', 'false');
+          otherPanel.hidden = true;
+          other.classList.remove('active');
+        });
+
+        const willOpen = !expanded;
+        btn.setAttribute('aria-expanded', String(willOpen));
+        panel.hidden = !willOpen;
+        item.classList.toggle('active', willOpen);
+      });
+
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
+  }
+})();

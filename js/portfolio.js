@@ -1,343 +1,219 @@
 /**
- * js/portfolio.js - исправленная версия
- * - стабильный "Ещё/Скрыть" (не удаляем и не клонируем узлы, просто скрываем/показываем существующие span)
- * - "+N" для тэгов (корректный показ/скрытие)
- * - фильтры и пересчёт при ресайзе
+ * js/portfolio.js
+ * Handles:
+ *  - "Read more" / collapse for project descriptions
+ *  - Portfolio filters with ARIA and keyboard support
+ *  - Small accessibility helpers (skip link focus, safe external links)
+ *
+ * Assumes HTML structure from portfolio.html and that details-slider.js
+ * manages the carousel separately.
  */
 
-(function () {
-  'use strict';
+document.addEventListener('DOMContentLoaded', () => {
+  /* ======================================================
+     1. READ MORE / COLLAPSE (preserve HTML, accessible)
+  ====================================================== */
+  (function initReadMore() {
+    const descBlocks = Array.from(document.querySelectorAll('.portfolio-desc-block'));
 
-  const MOBILE_BP = 700;
-  const DESKTOP_SENTENCES = 2;
-  const MOBILE_SENTENCES = 1;
-  const RESIZE_DEBOUNCE = 140;
+    if (!descBlocks.length) return;
 
-  /* ---------- Утилиты ---------- */
-  function splitSentences(text) {
-    if (!text) return [''];
-    const re = /[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g;
-    const matches = text.match(re);
-    return matches ? matches.map(s => s.trim()) : [text.trim()];
-  }
+    descBlocks.forEach((desc) => {
+      // Keep original HTML
+      const fullHTML = desc.innerHTML.trim();
+      const plainText = desc.textContent.trim();
 
-  function debounce(fn, ms) {
-    let t = null;
-    return function (...args) {
-      if (t) clearTimeout(t);
-      t = setTimeout(() => { fn(...args); t = null; }, ms);
-    };
-  }
+      // If short enough, skip
+      if (plainText.length <= 140) return;
 
-  /* ---------- Нормализация карточки (перемещаем узлы) ---------- */
-  function normalizeCardDOM(item) {
-    // Ищем узлы
-    const h3 = item.querySelector('h3');
-    const image = item.querySelector('.portfolio-image');
-    let p = item.querySelector('.portfolio-desc-block p');
-    if (!p) p = item.querySelector('.portfolio-content p') || null;
-    const bottom = item.querySelector('.portfolio-bottom-row');
-
-    // Создаём или используем headerWrap
-    let headerWrap = item.querySelector('.portfolio-title-block');
-    if (!headerWrap) {
-      headerWrap = document.createElement('div');
-      headerWrap.className = 'portfolio-title-block';
-    }
-
-    if (h3) {
-      headerWrap.innerHTML = '';
-      headerWrap.appendChild(h3); // перемещает h3 в headerWrap
-    }
-
-    // descWrap
-    let descWrap = item.querySelector('.portfolio-desc-block');
-    if (!descWrap) {
-      descWrap = document.createElement('div');
-      descWrap.className = 'portfolio-desc-block';
-    }
-    if (p) {
-      descWrap.appendChild(p); // переместит p
-    }
-
-    const frag = document.createDocumentFragment();
-    if (headerWrap && headerWrap.children.length) frag.appendChild(headerWrap);
-    if (image) frag.appendChild(image);
-    if (descWrap && descWrap.children.length) frag.appendChild(descWrap);
-    if (bottom) frag.appendChild(bottom);
-
-    item.innerHTML = '';
-    item.appendChild(frag);
-  }
-
-  function normalizeAllCards() {
-    const items = document.querySelectorAll('.portfolio-item');
-    items.forEach(item => normalizeCardDOM(item));
-  }
-
-  /* ---------- Превью/Toggle (надежно) ---------- */
-  function setupPreviewStructure(item, sentencesToShow) {
-    const p = item.querySelector('.portfolio-desc-block p');
-    if (!p) return;
-
-    if (!p.dataset.fullText) p.dataset.fullText = p.textContent.trim();
-    const full = p.dataset.fullText;
-
-    // если уже инициализировано (есть элемент .preview), не пересоздавать структуру, только обновить тексты
-    const existingPreview = p.querySelector('.preview');
-    if (existingPreview) {
-      // обновим содержимое в случае изменения размера (кол-во предложений)
-      const sentences = splitSentences(full);
-      if (sentences.length <= sentencesToShow) {
-        p.innerHTML = ''; // покажем весь текст, удалим кнопку
-        const spanFull = document.createElement('span');
-        spanFull.className = 'fulltext';
-        spanFull.textContent = full;
-        p.appendChild(spanFull);
-        const btn = item.querySelector('.desc-toggle');
-        if (btn) btn.remove();
-        item.classList.remove('expanded');
-        item.dataset.expanded = 'false';
+      // Try to split into sentences; fallback to character trim
+      let shortText = '';
+      const sentences = plainText.match(/(.+?[.!?])(\s|$)/g);
+      if (sentences && sentences.length >= 2) {
+        shortText = sentences.slice(0, 2).join(' ').trim();
       } else {
-        // перестроим preview/full для текущего sentencesToShow, но сохраним кнопку
-        const previewText = sentences.slice(0, sentencesToShow).join(' ');
-        const restText = sentences.slice(sentencesToShow).join(' ').trim();
-        existingPreview.textContent = previewText;
-        const ell = p.querySelector('.ellipsis') || document.createElement('span');
-        ell.className = 'ellipsis';
-        ell.textContent = '…';
-        const fullSpan = p.querySelector('.fulltext') || document.createElement('span');
-        fullSpan.className = 'fulltext';
-        fullSpan.style.display = 'none';
-        fullSpan.textContent = ' ' + restText;
-
-        // rebuild p inner if necessary
-        p.innerHTML = '';
-        p.appendChild(existingPreview);
-        p.appendChild(ell);
-        p.appendChild(fullSpan);
-
-        // if expanded was true, keep expanded state
-        if (item.classList.contains('expanded')) {
-          p.querySelector('.preview').style.display = 'none';
-          p.querySelector('.ellipsis').style.display = 'none';
-          p.querySelector('.fulltext').style.display = '';
-        }
+        shortText = plainText.slice(0, 140).trim();
+        shortText = shortText.replace(/\s+[^\s]*$/, ''); // avoid cutting last word
       }
-      return;
-    }
+      shortText += '…';
 
-    // initial create
-    const sentences = splitSentences(full);
-    if (sentences.length <= sentencesToShow) {
-      p.innerHTML = '';
-      const spanFull = document.createElement('span');
-      spanFull.className = 'fulltext';
-      spanFull.textContent = full;
-      p.appendChild(spanFull);
-      item.classList.remove('expanded');
-      item.dataset.expanded = 'false';
-      return;
-    }
+      // Store both variants (full HTML and short HTML-safe)
+      desc.dataset.full = fullHTML;
+      desc.dataset.short = `<p>${escapeHtml(shortText)}</p>`;
 
-    const previewText = sentences.slice(0, sentencesToShow).join(' ');
-    const restText = sentences.slice(sentencesToShow).join(' ').trim();
+      // Apply short version
+      desc.innerHTML = desc.dataset.short;
+      desc.classList.add('collapsed');
 
-    const previewSpan = document.createElement('span');
-    previewSpan.className = 'preview';
-    previewSpan.textContent = previewText;
-
-    const ell = document.createElement('span');
-    ell.className = 'ellipsis';
-    ell.textContent = '…';
-
-    const fullSpan = document.createElement('span');
-    fullSpan.className = 'fulltext';
-    fullSpan.style.display = 'none';
-    fullSpan.textContent = ' ' + restText;
-
-    p.innerHTML = '';
-    p.appendChild(previewSpan);
-    p.appendChild(ell);
-    p.appendChild(fullSpan);
-
-    // create button if not exists
-    let btn = item.querySelector('.desc-toggle');
-    if (!btn) {
-      btn = document.createElement('button');
+      // Create toggle button
+      const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'desc-toggle';
-      btn.textContent = 'Ещё';
+      btn.className = 'read-more-btn';
       btn.setAttribute('aria-expanded', 'false');
-      item.querySelector('.portfolio-desc-block').appendChild(btn);
+      btn.textContent = 'Ещё';
 
-      btn.addEventListener('click', function () {
-        const expanded = item.classList.toggle('expanded');
-        const pLocal = item.querySelector('.portfolio-desc-block p');
+      btn.addEventListener('click', () => {
+        const expanded = btn.classList.toggle('open');
         if (expanded) {
-          // показать полный: скрываем preview/ellipsis, показываем fulltext
-          const previewEl = pLocal.querySelector('.preview');
-          const ellEl = pLocal.querySelector('.ellipsis');
-          const fullEl = pLocal.querySelector('.fulltext');
-          if (previewEl) previewEl.style.display = 'none';
-          if (ellEl) ellEl.style.display = 'none';
-          if (fullEl) fullEl.style.display = '';
+          desc.innerHTML = desc.dataset.full;
+          desc.classList.remove('collapsed');
           btn.textContent = 'Скрыть';
           btn.setAttribute('aria-expanded', 'true');
-          item.dataset.expanded = 'true';
         } else {
-          // свернуть: показать preview, скрыть fulltext
-          const previewEl = pLocal.querySelector('.preview');
-          const ellEl = pLocal.querySelector('.ellipsis');
-          const fullEl = pLocal.querySelector('.fulltext');
-          if (previewEl) previewEl.style.display = '';
-          if (ellEl) ellEl.style.display = '';
-          if (fullEl) fullEl.style.display = 'none';
+          desc.innerHTML = desc.dataset.short;
+          desc.classList.add('collapsed');
           btn.textContent = 'Ещё';
           btn.setAttribute('aria-expanded', 'false');
-          item.dataset.expanded = 'false';
         }
       });
-    } else {
-      // ensure initial state
-      btn.textContent = 'Ещё';
-      btn.setAttribute('aria-expanded', 'false');
+
+      // Insert button after description
+      desc.after(btn);
+    });
+
+    // Helper: escape HTML for short snippet
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
     }
-    item.dataset.expanded = 'false';
-  }
+  })();
 
-  function prepareAllPreviews() {
-    const items = document.querySelectorAll('.portfolio-item');
-    const isMobile = window.innerWidth <= MOBILE_BP;
-    const sentences = isMobile ? MOBILE_SENTENCES : DESKTOP_SENTENCES;
-    items.forEach(item => setupPreviewStructure(item, sentencesToShow = sentences));
-  }
 
-  /* ---------- Хэштеги +N ---------- */
-  function collapseTagsInItem(item) {
-    const tech = item.querySelector('.portfolio-tech');
-    if (!tech) return;
+  /* ======================================================
+     2. FILTERS (ARIA, tabindex, keyboard navigation)
+     - role="tablist" expected on container
+     - each .filter-btn is role="tab"
+  ====================================================== */
+  (function initFilters() {
+    const tablist = document.querySelector('.filter-buttons[role="tablist"]');
+    if (!tablist) return;
 
-    // удалить старую кнопу, показать все
-    const oldMore = tech.querySelector('.tech-more');
-    if (oldMore) oldMore.remove();
+    const tabs = Array.from(tablist.querySelectorAll('.filter-btn'));
+    const items = Array.from(document.querySelectorAll('.portfolio-item'));
 
-    const tags = Array.from(tech.querySelectorAll('.tech-tag'));
-    if (!tags.length) return;
+    if (!tabs.length) return;
 
-    tags.forEach(t => t.style.display = 'inline-flex');
+    // Initialize ARIA and tabindex
+    tabs.forEach((tab, idx) => {
+      tab.setAttribute('role', 'tab');
+      const active = tab.classList.contains('active');
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.setAttribute('tabindex', active ? '0' : '-1');
 
-    // вычислить доступную ширину
-    const containerWidth = tech.clientWidth;
-    const parent = item;
-    const rightNode = parent ? parent.querySelector('.portfolio-links') : null;
-    const rightWidth = rightNode ? Math.ceil(rightNode.getBoundingClientRect().width) + 8 : 0;
-    const available = Math.max(0, containerWidth - rightWidth - 6);
+      tab.addEventListener('click', () => applyFilter(tab));
+      tab.addEventListener('keydown', (e) => {
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+            e.preventDefault();
+            focusTab((idx + 1) % tabs.length);
+            break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+            e.preventDefault();
+            focusTab((idx - 1 + tabs.length) % tabs.length);
+            break;
+          case 'Home':
+            e.preventDefault();
+            focusTab(0);
+            break;
+          case 'End':
+            e.preventDefault();
+            focusTab(tabs.length - 1);
+            break;
+          case 'Enter':
+          case ' ':
+            e.preventDefault();
+            applyFilter(tab);
+            break;
+        }
+      });
+    });
 
-    let sum = 0, visibleCount = 0;
-    for (const t of tags) {
-      const w = Math.ceil(t.getBoundingClientRect().width) + 8;
-      if (sum + w <= available || visibleCount === 0) {
-        sum += w; visibleCount++;
-      } else break;
+    function applyFilter(activeTab) {
+      const filter = activeTab.dataset.filter || 'all';
+
+      tabs.forEach((t) => {
+        const isActive = t === activeTab;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        t.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      items.forEach((it) => {
+        const cat = it.dataset.category || '';
+        if (filter === 'all' || cat === filter) {
+          it.style.display = 'flex';
+          it.removeAttribute('aria-hidden');
+        } else {
+          it.style.display = 'none';
+          it.setAttribute('aria-hidden', 'true');
+        }
+      });
     }
 
-    if (visibleCount >= tags.length) return; // все помещаются
+    function focusTab(index) {
+      const t = tabs[index];
+      if (!t) return;
+      t.focus();
+    }
+  })();
 
-    const hidden = tags.slice(visibleCount);
-    hidden.forEach(h => h.style.display = 'none');
 
-    const more = document.createElement('button');
-    more.type = 'button';
-    more.className = 'tech-more';
-    more.textContent = `+${hidden.length}`;
-    more.setAttribute('aria-expanded', 'false');
+  /* ======================================================
+     3. ACCESSIBILITY & SMALL HELPERS
+     - ensure external links open safely and have rel attributes
+     - skip link focus behavior already in HTML; ensure main can be focused
+  ====================================================== */
+  (function smallHelpers() {
+    // Ensure external links with target="_blank" have rel attributes
+    const external = Array.from(document.querySelectorAll('a[target="_blank"]'));
+    external.forEach((a) => {
+      const rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+      if (!rel.includes('noopener')) rel.push('noopener');
+      if (!rel.includes('noreferrer')) rel.push('noreferrer');
+      a.setAttribute('rel', rel.join(' '));
+    });
 
-    more.addEventListener('click', () => {
-      const open = more.getAttribute('aria-expanded') === 'true';
-      if (!open) {
-        hidden.forEach(h => h.style.display = 'inline-flex');
-        more.textContent = 'Скрыть';
-        more.setAttribute('aria-expanded', 'true');
-      } else {
-        hidden.forEach(h => h.style.display = 'none');
-        more.textContent = `+${hidden.length}`;
-        more.setAttribute('aria-expanded', 'false');
+    // Make skip link visible on focus (if custom CSS not present)
+    const skip = document.querySelector('.skip-link');
+    if (skip) {
+      skip.addEventListener('click', (e) => {
+        const target = document.querySelector(skip.getAttribute('href'));
+        if (target) {
+          target.focus({ preventScroll: false });
+        }
+      });
+    }
+  })();
+
+  /* ======================================================
+     4. LIGHT SAFETY CHECKS
+     - ensure portfolio grid has at least one item visible
+  ====================================================== */
+  (function safetyChecks() {
+    const grid = document.querySelector('.portfolio-grid');
+    if (!grid) return;
+    const visible = grid.querySelectorAll('.portfolio-item:not([aria-hidden="true"])');
+    if (!visible.length) {
+      // If nothing visible (edge case), show all
+      const items = grid.querySelectorAll('.portfolio-item');
+      items.forEach(it => {
+        it.style.display = 'flex';
+        it.removeAttribute('aria-hidden');
+      });
+      const firstTab = document.querySelector('.filter-btn');
+      if (firstTab) {
+        firstTab.classList.add('active');
+        firstTab.setAttribute('aria-selected', 'true');
+        firstTab.setAttribute('tabindex', '0');
       }
-    });
+    }
+  })();
 
-    tech.appendChild(more);
-  }
-
-  function collapseAllTags() {
-    const items = document.querySelectorAll('.portfolio-item');
-    items.forEach(item => collapseTagsInItem(item));
-  }
-
-  /* ---------- Фильтры ---------- */
-  function initFilters() {
-    const buttons = document.querySelectorAll('.filter-btn');
-    if (!buttons.length) return;
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
-        const f = (btn.dataset.filter || 'all').toLowerCase();
-        applyFilter(f);
-      });
-      btn.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); btn.click(); } });
-    });
-  }
-
-  function applyFilter(filter) {
-    const items = document.querySelectorAll('.portfolio-item');
-    items.forEach(item => {
-      if (filter === 'all') { item.hidden = false; item.setAttribute('aria-hidden', 'false'); return; }
-      const cats = (item.dataset.category || '').toLowerCase();
-      const list = cats.split(/[\s,]+/).filter(Boolean);
-      const show = list.includes(filter);
-      item.hidden = !show;
-      item.setAttribute('aria-hidden', item.hidden ? 'true' : 'false');
-    });
-  }
-
-  /* ---------- Инициализация ---------- */
-  function initAll() {
-    normalizeAllCards();
-    prepareAllPreviews();
-    collapseAllTags();
-    initFilters();
-
-    const recompute = debounce(() => {
-      // сохранение открытых карточек
-      const openItems = Array.from(document.querySelectorAll('.portfolio-item.expanded'));
-      normalizeAllCards();
-      prepareAllPreviews();
-      collapseAllTags();
-      // вернуть открытые
-      openItems.forEach(it => {
-        const p = it.querySelector('.portfolio-desc-block p');
-        if (p && p.dataset && p.dataset.fullText) {
-          const btn = it.querySelector('.desc-toggle');
-          if (btn) {
-            it.classList.add('expanded');
-            btn.textContent = 'Скрыть';
-            btn.setAttribute('aria-expanded', 'true');
-            const previewEl = p.querySelector('.preview');
-            const ellEl = p.querySelector('.ellipsis');
-            const fullEl = p.querySelector('.fulltext');
-            if (previewEl) previewEl.style.display = 'none';
-            if (ellEl) ellEl.style.display = 'none';
-            if (fullEl) fullEl.style.display = '';
-          }
-        }
-      });
-    }, RESIZE_DEBOUNCE);
-
-    window.addEventListener('resize', recompute);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
-  } else initAll();
-
-})();
+});

@@ -204,7 +204,7 @@ body {
    ========================= */
 .skills {
   padding: 40px 0;
-  background: var(--bg-dark);
+  background: #181a20;
   color: var(--text);
 }
 

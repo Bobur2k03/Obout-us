@@ -1,344 +1,343 @@
-// JavaScript для страницы портфолио
+/**
+ * js/portfolio.js - исправленная версия
+ * - стабильный "Ещё/Скрыть" (не удаляем и не клонируем узлы, просто скрываем/показываем существующие span)
+ * - "+N" для тэгов (корректный показ/скрытие)
+ * - фильтры и пересчёт при ресайзе
+ */
 
-document.addEventListener('DOMContentLoaded', function() {
-    initPortfolioFilter();
-    initPortfolioAnimations();
-    initPortfolioModal();
-});
+(function () {
+  'use strict';
 
-// Фильтр портфолио
-function initPortfolioFilter() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            
-            // Обновить активную кнопку
-            filterButtons.forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.transform = 'scale(1)';
-            });
-            this.classList.add('active');
-            this.style.transform = 'scale(1.05)';
-            
-            // Анимация фильтрации
-            portfolioItems.forEach((item, index) => {
-                const category = item.getAttribute('data-category');
-                
-                setTimeout(() => {
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                        item.classList.add('portfolio-item-appear');
-                        item.style.animationDelay = `${index * 0.1}s`;
-                    } else {
-                        item.style.display = 'none';
-                        item.classList.remove('portfolio-item-appear');
-                    }
-                }, index * 50);
-            });
-        });
-    });
-}
+  const MOBILE_BP = 700;
+  const DESKTOP_SENTENCES = 2;
+  const MOBILE_SENTENCES = 1;
+  const RESIZE_DEBOUNCE = 140;
 
-// Анимации портфолио
-function initPortfolioAnimations() {
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    
-    // Анимация появления при скролле
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('portfolio-item-appear');
-                }, index * 100);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    portfolioItems.forEach(item => {
-        observer.observe(item);
-    });
-    
-    // Hover эффекты
-    portfolioItems.forEach(item => {
-        const image = item.querySelector('.portfolio-image');
-        const overlay = item.querySelector('.portfolio-overlay');
-        
-        item.addEventListener('mouseenter', function() {
-            if (image) {
-                image.style.transform = 'scale(1.05)';
-            }
-            if (overlay) {
-                overlay.style.opacity = '1';
-            }
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            if (image) {
-                image.style.transform = 'scale(1)';
-            }
-            if (overlay) {
-                overlay.style.opacity = '0';
-            }
-        });
-    });
-}
+  /* ---------- Утилиты ---------- */
+  function splitSentences(text) {
+    if (!text) return [''];
+    const re = /[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g;
+    const matches = text.match(re);
+    return matches ? matches.map(s => s.trim()) : [text.trim()];
+  }
 
-// Модальное окно для проектов
-function initPortfolioModal() {
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    
-    portfolioItems.forEach(item => {
-        const viewLink = item.querySelector('.portfolio-link[title="Посмотреть"]');
-        const githubLink = item.querySelector('.portfolio-link[title="GitHub"]');
-        
-        if (viewLink) {
-            viewLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                showProjectModal(item);
-            });
-        }
-        
-        if (githubLink) {
-            githubLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                const projectTitle = item.querySelector('h3').textContent;
-                openGitHub(projectTitle);
-            });
-        }
-    });
-}
-
-// Показать модальное окно проекта
-function showProjectModal(item) {
-    const title = item.querySelector('h3').textContent;
-    const description = item.querySelector('p').textContent;
-    const techTags = Array.from(item.querySelectorAll('.tech-tag')).map(tag => tag.textContent);
-    const image = item.querySelector('img').src;
-    
-    // Создаем модальное окно
-    const modal = document.createElement('div');
-    modal.className = 'portfolio-modal';
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 2000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    `;
-    
-    modal.innerHTML = `
-        <div class="modal-content" style="
-            background: white;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        ">
-            <div class="modal-header" style="
-                padding: 20px;
-                border-bottom: 1px solid #e5e7eb;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            ">
-                <h2 style="margin: 0; color: #1f2937;">${title}</h2>
-                <button class="modal-close" style="
-                    background: none;
-                    border: none;
-                    font-size: 24px;
-                    cursor: pointer;
-                    color: #6b7280;
-                    padding: 0;
-                    width: 30px;
-                    height: 30px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                ">&times;</button>
-            </div>
-            <div class="modal-body" style="padding: 20px;">
-                <div class="modal-image" style="
-                    width: 100%;
-                    height: 200px;
-                    background: #f3f4f6;
-                    border-radius: 8px;
-                    margin-bottom: 20px;
-                    background-image: url('${image}');
-                    background-size: cover;
-                    background-position: center;
-                "></div>
-                <p style="color: #6b7280; line-height: 1.6; margin-bottom: 20px;">${description}</p>
-                <div class="modal-tech" style="margin-bottom: 20px;">
-                    <h4 style="margin-bottom: 10px; color: #1f2937;">Технологии:</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        ${techTags.map(tag => `
-                            <span style="
-                                background: #f3f4f6;
-                                color: #2563eb;
-                                padding: 4px 12px;
-                                border-radius: 15px;
-                                font-size: 14px;
-                                font-weight: 500;
-                            ">${tag}</span>
-                        `).join('')}
-                    </div>
-                </div>
-                <div class="modal-actions" style="
-                    display: flex;
-                    gap: 10px;
-                    justify-content: center;
-                ">
-                    <button class="btn btn-primary" style="
-                        background: #2563eb;
-                        color: white;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 6px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    ">Посмотреть проект</button>
-                    <button class="btn btn-secondary" style="
-                        background: #f3f4f6;
-                        color: #374151;
-                        border: 1px solid #d1d5db;
-                        padding: 10px 20px;
-                        border-radius: 6px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    ">GitHub</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Анимация появления
-    setTimeout(() => {
-        modal.style.opacity = '1';
-        modal.querySelector('.modal-content').style.transform = 'scale(1)';
-    }, 10);
-    
-    // Закрытие модального окна
-    const closeModal = () => {
-        modal.style.opacity = '0';
-        modal.querySelector('.modal-content').style.transform = 'scale(0.8)';
-        setTimeout(() => {
-            modal.remove();
-        }, 300);
+  function debounce(fn, ms) {
+    let t = null;
+    return function (...args) {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => { fn(...args); t = null; }, ms);
     };
-    
-    modal.querySelector('.modal-close').addEventListener('click', closeModal);
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-    
-    // Закрытие по Escape
-    const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-            closeModal();
-            document.removeEventListener('keydown', handleEscape);
-        }
-    };
-    document.addEventListener('keydown', handleEscape);
-}
+  }
 
-// Открыть GitHub
-function openGitHub(projectTitle) {
-    // Здесь можно добавить логику для открытия конкретного репозитория
-    // Пока что открываем общий профиль GitHub
-    const githubUrl = 'https://github.com/username'; // Замените на ваш GitHub
-    window.open(githubUrl, '_blank');
-}
+  /* ---------- Нормализация карточки (перемещаем узлы) ---------- */
+  function normalizeCardDOM(item) {
+    // Ищем узлы
+    const h3 = item.querySelector('h3');
+    const image = item.querySelector('.portfolio-image');
+    let p = item.querySelector('.portfolio-desc-block p');
+    if (!p) p = item.querySelector('.portfolio-content p') || null;
+    const bottom = item.querySelector('.portfolio-bottom-row');
 
-// Анимация счетчиков статистики
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-item h3');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.textContent.replace(/\D/g, ''));
-        const suffix = counter.textContent.replace(/\d/g, '');
-        let current = 0;
-        const increment = target / 50;
-        
-        const updateCounter = () => {
-            if (current < target) {
-                current += increment;
-                counter.textContent = Math.ceil(current) + suffix;
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target + suffix;
-            }
-        };
-        
-        // Запускаем анимацию при появлении в viewport
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    updateCounter();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        observer.observe(counter);
-    });
-}
-
-// Инициализация анимации счетчиков
-document.addEventListener('DOMContentLoaded', function() {
-    animateCounters();
-});
-
-// Плавная прокрутка к секциям
-function smoothScrollToSection(targetId) {
-    const target = document.querySelector(targetId);
-    if (target) {
-        target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+    // Создаём или используем headerWrap
+    let headerWrap = item.querySelector('.portfolio-title-block');
+    if (!headerWrap) {
+      headerWrap = document.createElement('div');
+      headerWrap.className = 'portfolio-title-block';
     }
-}
 
-// Обработка ошибок загрузки изображений
-document.addEventListener('DOMContentLoaded', function() {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.addEventListener('error', function() {
-            this.style.display = 'none';
-            console.warn('Изображение не загружено:', this.src);
-        });
+    if (h3) {
+      headerWrap.innerHTML = '';
+      headerWrap.appendChild(h3); // перемещает h3 в headerWrap
+    }
+
+    // descWrap
+    let descWrap = item.querySelector('.portfolio-desc-block');
+    if (!descWrap) {
+      descWrap = document.createElement('div');
+      descWrap.className = 'portfolio-desc-block';
+    }
+    if (p) {
+      descWrap.appendChild(p); // переместит p
+    }
+
+    const frag = document.createDocumentFragment();
+    if (headerWrap && headerWrap.children.length) frag.appendChild(headerWrap);
+    if (image) frag.appendChild(image);
+    if (descWrap && descWrap.children.length) frag.appendChild(descWrap);
+    if (bottom) frag.appendChild(bottom);
+
+    item.innerHTML = '';
+    item.appendChild(frag);
+  }
+
+  function normalizeAllCards() {
+    const items = document.querySelectorAll('.portfolio-item');
+    items.forEach(item => normalizeCardDOM(item));
+  }
+
+  /* ---------- Превью/Toggle (надежно) ---------- */
+  function setupPreviewStructure(item, sentencesToShow) {
+    const p = item.querySelector('.portfolio-desc-block p');
+    if (!p) return;
+
+    if (!p.dataset.fullText) p.dataset.fullText = p.textContent.trim();
+    const full = p.dataset.fullText;
+
+    // если уже инициализировано (есть элемент .preview), не пересоздавать структуру, только обновить тексты
+    const existingPreview = p.querySelector('.preview');
+    if (existingPreview) {
+      // обновим содержимое в случае изменения размера (кол-во предложений)
+      const sentences = splitSentences(full);
+      if (sentences.length <= sentencesToShow) {
+        p.innerHTML = ''; // покажем весь текст, удалим кнопку
+        const spanFull = document.createElement('span');
+        spanFull.className = 'fulltext';
+        spanFull.textContent = full;
+        p.appendChild(spanFull);
+        const btn = item.querySelector('.desc-toggle');
+        if (btn) btn.remove();
+        item.classList.remove('expanded');
+        item.dataset.expanded = 'false';
+      } else {
+        // перестроим preview/full для текущего sentencesToShow, но сохраним кнопку
+        const previewText = sentences.slice(0, sentencesToShow).join(' ');
+        const restText = sentences.slice(sentencesToShow).join(' ').trim();
+        existingPreview.textContent = previewText;
+        const ell = p.querySelector('.ellipsis') || document.createElement('span');
+        ell.className = 'ellipsis';
+        ell.textContent = '…';
+        const fullSpan = p.querySelector('.fulltext') || document.createElement('span');
+        fullSpan.className = 'fulltext';
+        fullSpan.style.display = 'none';
+        fullSpan.textContent = ' ' + restText;
+
+        // rebuild p inner if necessary
+        p.innerHTML = '';
+        p.appendChild(existingPreview);
+        p.appendChild(ell);
+        p.appendChild(fullSpan);
+
+        // if expanded was true, keep expanded state
+        if (item.classList.contains('expanded')) {
+          p.querySelector('.preview').style.display = 'none';
+          p.querySelector('.ellipsis').style.display = 'none';
+          p.querySelector('.fulltext').style.display = '';
+        }
+      }
+      return;
+    }
+
+    // initial create
+    const sentences = splitSentences(full);
+    if (sentences.length <= sentencesToShow) {
+      p.innerHTML = '';
+      const spanFull = document.createElement('span');
+      spanFull.className = 'fulltext';
+      spanFull.textContent = full;
+      p.appendChild(spanFull);
+      item.classList.remove('expanded');
+      item.dataset.expanded = 'false';
+      return;
+    }
+
+    const previewText = sentences.slice(0, sentencesToShow).join(' ');
+    const restText = sentences.slice(sentencesToShow).join(' ').trim();
+
+    const previewSpan = document.createElement('span');
+    previewSpan.className = 'preview';
+    previewSpan.textContent = previewText;
+
+    const ell = document.createElement('span');
+    ell.className = 'ellipsis';
+    ell.textContent = '…';
+
+    const fullSpan = document.createElement('span');
+    fullSpan.className = 'fulltext';
+    fullSpan.style.display = 'none';
+    fullSpan.textContent = ' ' + restText;
+
+    p.innerHTML = '';
+    p.appendChild(previewSpan);
+    p.appendChild(ell);
+    p.appendChild(fullSpan);
+
+    // create button if not exists
+    let btn = item.querySelector('.desc-toggle');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'desc-toggle';
+      btn.textContent = 'Ещё';
+      btn.setAttribute('aria-expanded', 'false');
+      item.querySelector('.portfolio-desc-block').appendChild(btn);
+
+      btn.addEventListener('click', function () {
+        const expanded = item.classList.toggle('expanded');
+        const pLocal = item.querySelector('.portfolio-desc-block p');
+        if (expanded) {
+          // показать полный: скрываем preview/ellipsis, показываем fulltext
+          const previewEl = pLocal.querySelector('.preview');
+          const ellEl = pLocal.querySelector('.ellipsis');
+          const fullEl = pLocal.querySelector('.fulltext');
+          if (previewEl) previewEl.style.display = 'none';
+          if (ellEl) ellEl.style.display = 'none';
+          if (fullEl) fullEl.style.display = '';
+          btn.textContent = 'Скрыть';
+          btn.setAttribute('aria-expanded', 'true');
+          item.dataset.expanded = 'true';
+        } else {
+          // свернуть: показать preview, скрыть fulltext
+          const previewEl = pLocal.querySelector('.preview');
+          const ellEl = pLocal.querySelector('.ellipsis');
+          const fullEl = pLocal.querySelector('.fulltext');
+          if (previewEl) previewEl.style.display = '';
+          if (ellEl) ellEl.style.display = '';
+          if (fullEl) fullEl.style.display = 'none';
+          btn.textContent = 'Ещё';
+          btn.setAttribute('aria-expanded', 'false');
+          item.dataset.expanded = 'false';
+        }
+      });
+    } else {
+      // ensure initial state
+      btn.textContent = 'Ещё';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    item.dataset.expanded = 'false';
+  }
+
+  function prepareAllPreviews() {
+    const items = document.querySelectorAll('.portfolio-item');
+    const isMobile = window.innerWidth <= MOBILE_BP;
+    const sentences = isMobile ? MOBILE_SENTENCES : DESKTOP_SENTENCES;
+    items.forEach(item => setupPreviewStructure(item, sentencesToShow = sentences));
+  }
+
+  /* ---------- Хэштеги +N ---------- */
+  function collapseTagsInItem(item) {
+    const tech = item.querySelector('.portfolio-tech');
+    if (!tech) return;
+
+    // удалить старую кнопу, показать все
+    const oldMore = tech.querySelector('.tech-more');
+    if (oldMore) oldMore.remove();
+
+    const tags = Array.from(tech.querySelectorAll('.tech-tag'));
+    if (!tags.length) return;
+
+    tags.forEach(t => t.style.display = 'inline-flex');
+
+    // вычислить доступную ширину
+    const containerWidth = tech.clientWidth;
+    const parent = item;
+    const rightNode = parent ? parent.querySelector('.portfolio-links') : null;
+    const rightWidth = rightNode ? Math.ceil(rightNode.getBoundingClientRect().width) + 8 : 0;
+    const available = Math.max(0, containerWidth - rightWidth - 6);
+
+    let sum = 0, visibleCount = 0;
+    for (const t of tags) {
+      const w = Math.ceil(t.getBoundingClientRect().width) + 8;
+      if (sum + w <= available || visibleCount === 0) {
+        sum += w; visibleCount++;
+      } else break;
+    }
+
+    if (visibleCount >= tags.length) return; // все помещаются
+
+    const hidden = tags.slice(visibleCount);
+    hidden.forEach(h => h.style.display = 'none');
+
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'tech-more';
+    more.textContent = `+${hidden.length}`;
+    more.setAttribute('aria-expanded', 'false');
+
+    more.addEventListener('click', () => {
+      const open = more.getAttribute('aria-expanded') === 'true';
+      if (!open) {
+        hidden.forEach(h => h.style.display = 'inline-flex');
+        more.textContent = 'Скрыть';
+        more.setAttribute('aria-expanded', 'true');
+      } else {
+        hidden.forEach(h => h.style.display = 'none');
+        more.textContent = `+${hidden.length}`;
+        more.setAttribute('aria-expanded', 'false');
+      }
     });
-});
 
-// Экспорт функций для использования в других файлах
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initPortfolioFilter,
-        initPortfolioAnimations,
-        initPortfolioModal,
-        showProjectModal,
-        openGitHub,
-        animateCounters
-    };
-}
+    tech.appendChild(more);
+  }
+
+  function collapseAllTags() {
+    const items = document.querySelectorAll('.portfolio-item');
+    items.forEach(item => collapseTagsInItem(item));
+  }
+
+  /* ---------- Фильтры ---------- */
+  function initFilters() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    if (!buttons.length) return;
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
+        const f = (btn.dataset.filter || 'all').toLowerCase();
+        applyFilter(f);
+      });
+      btn.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); btn.click(); } });
+    });
+  }
+
+  function applyFilter(filter) {
+    const items = document.querySelectorAll('.portfolio-item');
+    items.forEach(item => {
+      if (filter === 'all') { item.hidden = false; item.setAttribute('aria-hidden', 'false'); return; }
+      const cats = (item.dataset.category || '').toLowerCase();
+      const list = cats.split(/[\s,]+/).filter(Boolean);
+      const show = list.includes(filter);
+      item.hidden = !show;
+      item.setAttribute('aria-hidden', item.hidden ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- Инициализация ---------- */
+  function initAll() {
+    normalizeAllCards();
+    prepareAllPreviews();
+    collapseAllTags();
+    initFilters();
+
+    const recompute = debounce(() => {
+      // сохранение открытых карточек
+      const openItems = Array.from(document.querySelectorAll('.portfolio-item.expanded'));
+      normalizeAllCards();
+      prepareAllPreviews();
+      collapseAllTags();
+      // вернуть открытые
+      openItems.forEach(it => {
+        const p = it.querySelector('.portfolio-desc-block p');
+        if (p && p.dataset && p.dataset.fullText) {
+          const btn = it.querySelector('.desc-toggle');
+          if (btn) {
+            it.classList.add('expanded');
+            btn.textContent = 'Скрыть';
+            btn.setAttribute('aria-expanded', 'true');
+            const previewEl = p.querySelector('.preview');
+            const ellEl = p.querySelector('.ellipsis');
+            const fullEl = p.querySelector('.fulltext');
+            if (previewEl) previewEl.style.display = 'none';
+            if (ellEl) ellEl.style.display = 'none';
+            if (fullEl) fullEl.style.display = '';
+          }
+        }
+      });
+    }, RESIZE_DEBOUNCE);
+
+    window.addEventListener('resize', recompute);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else initAll();
+
+})();

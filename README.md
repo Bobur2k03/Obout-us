@@ -15,24 +15,14 @@ HTML5 / CSS3 / JavaScript — основные веб-технологии дл�
 
 Font Awesome — библиотека векторных иконок для интерфейса / a library of vector icons used in the interface.
 
-Демо / Live Demo
-
-Демо-сайт доступен по адресу: https://username.github.io/obout-us (замените username на ваше имя пользователя GitHub).
-
-Live demo of the site is available at: https://username.github.io/obout-us (replace username with your GitHub username).
-
 Установка / Installation
 
-Склонируйте репозиторий: git clone https://github.com/username/obout-us.git. Clone the repository.
+Склонируйте репозиторий: git clone [https://github.com/username/obout-us.git.](https://github.com/Bobur2k03/Obout-us.git) Clone the repository.
 
 Перейдите в папку проекта: cd obout-us. Navigate to the project folder.
 
 Откройте файл index.html в браузере. Open the index.html file in your browser.
 
-Автор / Author
-
-Сайт создан с использованием ChatGPT и GitHub Copilot.
-The site was created using ChatGPT and GitHub Copilot.
 
 Лицензия / License
 
